@@ -23,9 +23,9 @@ glm::mat4 viewMatrix, leviMatrix, projectionMatrix;
 
 glm::mat4 zekeMatrix;
 
-float player_x = 0;
+float zeke_movement = 0;
+float zeke_direction = -2.0f;
 float levi_rotate = 0;
-
 
 GLuint levi_TextureID, zeke_TextureID;
 
@@ -103,24 +103,24 @@ void Update() {
     float deltaTime = ticks - lastTicks;    // second
     lastTicks = ticks;
     
-    float direction = -1.0f;
 
-    if (player_x < -4.6f) {
-        direction = 1.0f;
+    if (zeke_movement < -4.3f) {
+        zeke_direction = 2.0f;
     }
-    else if (player_x > 4.6f) {
-        direction = -1.0f;
+    else if (zeke_movement > 4.3f) {
+        zeke_direction = -2.0f;
     }
 
-    player_x += direction * deltaTime;
-    levi_rotate += 90.0f * deltaTime;
+    zeke_movement += zeke_direction * deltaTime;
+    levi_rotate += 720.0f * deltaTime;
+ 
 
     
     leviMatrix = glm::mat4(1.0f);
     zekeMatrix = glm::mat4(1.0f);
 
     // zeke movement
-    zekeMatrix = glm::translate(zekeMatrix, glm::vec3(player_x, -2.0f, 0.0f));
+    zekeMatrix = glm::translate(zekeMatrix, glm::vec3(zeke_movement, -2.0f, 0.0f));
     zekeMatrix = glm::scale(zekeMatrix, glm::vec3(2.5f, 2.5f, 2.5f)); // zeke is 17"
 
     
@@ -128,8 +128,8 @@ void Update() {
 
     // levi Movement
     leviMatrix = glm::translate(leviMatrix, glm::vec3(0.0f, 2.00f, 0.0f));
-    leviMatrix = glm::rotate(leviMatrix, glm::radians(levi_rotate), glm::vec3(0.0f, 0.0f, 3.0f));    
-    leviMatrix = glm::scale(leviMatrix, glm::vec3(-0.5f, -0.5f, -0.5f));    // LEVI IS 5" 2
+    leviMatrix = glm::rotate(leviMatrix, glm::radians(levi_rotate), glm::vec3(0.0f, 0.0f, 4.0f));    
+    leviMatrix = glm::scale(leviMatrix, glm::vec3(-0.5f, -0.5f, -0.5f));    // LEVI IS 5"2
 }
 
 void DrawObject(glm::mat4& matrix, GLuint& textureID) {
