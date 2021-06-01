@@ -19,13 +19,15 @@ SDL_Window* displayWindow;
 bool gameIsRunning = true;
 
 ShaderProgram program;
-glm::mat4 viewMatrix, modelMatrix, projectionMatrix;
+glm::mat4 viewMatrix, leviMatrix, projectionMatrix;
+
+glm::mat4 zekeMatrix;
 
 float player_x = 0;
 float levi_rotate = 0;
 
 
-GLuint playerTextureID;
+GLuint levi_TextureID, zeke_TextureID;
 
 GLuint LoadTexture(const char* filePath) {
     int w, h, n;
@@ -50,7 +52,7 @@ GLuint LoadTexture(const char* filePath) {
 
 void Initialize() {
     SDL_Init(SDL_INIT_VIDEO);
-    displayWindow = SDL_CreateWindow("Textured!", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 640, 480, SDL_WINDOW_OPENGL);
+    displayWindow = SDL_CreateWindow("dwarf vs monke", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 640, 480, SDL_WINDOW_OPENGL);
     SDL_GLContext context = SDL_GL_CreateContext(displayWindow);
     SDL_GL_MakeCurrent(displayWindow, context);
 
@@ -63,8 +65,10 @@ void Initialize() {
     program.Load("shaders/vertex_textured.glsl", "shaders/fragment_textured.glsl");
 
     viewMatrix = glm::mat4(1.0f);
-    modelMatrix = glm::mat4(1.0f);
     projectionMatrix = glm::ortho(-5.0f, 5.0f, -3.75f, 3.75f, -1.0f, 1.0f);
+    leviMatrix = glm::mat4(1.0f);
+    zekeMatrix = glm::mat4(1.0f);
+  
 
     program.SetProjectionMatrix(projectionMatrix);
     program.SetViewMatrix(viewMatrix);
@@ -76,11 +80,11 @@ void Initialize() {
 
     // BLENDING
     glEnable(GL_BLEND);
-    // Good setting for transparency
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);      // Good setting for transparency
 
-    playerTextureID = LoadTexture("levi.png");
-
+    levi_TextureID = LoadTexture("levi.png");
+    zeke_TextureID = LoadTexture("zeke.png");
+    
 }
 
 void ProcessInput() {
@@ -98,42 +102,61 @@ void Update() {
     float ticks = (float)SDL_GetTicks() / 1000.0f;
     float deltaTime = ticks - lastTicks;    // second
     lastTicks = ticks;
+    
+    float direction = -1.0f;
 
+    if (player_x < -4.6f) {
+        direction = 1.0f;
+    }
+    else if (player_x > 4.6f) {
+        direction = -1.0f;
+    }
 
-    modelMatrix = glm::mat4(1.0f);
-
-    player_x += -1.0f * deltaTime;
+    player_x += direction * deltaTime;
     levi_rotate += 90.0f * deltaTime;
 
-    // translation
-    modelMatrix = glm::translate(modelMatrix, glm::vec3(player_x, 0.00f, 0.0f));
     
-    //modelMatrix = glm::translate(modelMatrix, glm::vec3(player_x, 0.00f, 0.0f));
-    // rotation
-    //modelMatrix = glm::rotate(modelMatrix, glm::radians(levi_rotate), glm::vec3(0.0f, 0.0f, 1.0f));
+    leviMatrix = glm::mat4(1.0f);
+    zekeMatrix = glm::mat4(1.0f);
 
-    // size change
-    //modelMatrix = glm::scale(modelMatrix, glm::vec3(0.01f, 0.02f, 1.0f));
+    // zeke movement
+    zekeMatrix = glm::translate(zekeMatrix, glm::vec3(player_x, -2.0f, 0.0f));
+    zekeMatrix = glm::scale(zekeMatrix, glm::vec3(2.5f, 2.5f, 2.5f)); // zeke is 17"
 
-
-
-
+    
 
 
+    // levi Movement
+    leviMatrix = glm::translate(leviMatrix, glm::vec3(0.0f, 2.00f, 0.0f));
+    leviMatrix = glm::rotate(leviMatrix, glm::radians(levi_rotate), glm::vec3(0.0f, 0.0f, 3.0f));    
+    leviMatrix = glm::scale(leviMatrix, glm::vec3(-0.5f, -0.5f, -0.5f));    // LEVI IS 5" 2
 }
+
+void DrawObject(glm::mat4& matrix, GLuint& textureID) {
+    program.SetModelMatrix(matrix);
+    glBindTexture(GL_TEXTURE_2D, textureID);
+    glDrawArrays(GL_TRIANGLES, 0, 6);
+}
+
 
 void Render() {
     glClear(GL_COLOR_BUFFER_BIT);
-    program.SetModelMatrix(modelMatrix);
-
+    
     float vertices[] = { -0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5 };
     float texCoords[] = { 0.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0 };
+
     glVertexAttribPointer(program.positionAttribute, 2, GL_FLOAT, false, 0, vertices);
     glEnableVertexAttribArray(program.positionAttribute);
+
     glVertexAttribPointer(program.texCoordAttribute, 2, GL_FLOAT, false, 0, texCoords);
     glEnableVertexAttribArray(program.texCoordAttribute);
-    glBindTexture(GL_TEXTURE_2D, playerTextureID);
-    glDrawArrays(GL_TRIANGLES, 0, 6);
+
+
+    DrawObject(leviMatrix, levi_TextureID);
+    DrawObject(zekeMatrix, zeke_TextureID);
+
+
+   
     glDisableVertexAttribArray(program.positionAttribute);
     glDisableVertexAttribArray(program.texCoordAttribute);
 
