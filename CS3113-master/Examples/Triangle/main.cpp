@@ -60,7 +60,7 @@ void Render() {
     
     program.SetModelMatrix(modelMatrix);
     
-    float vertices[] = { 0.5f, -0.5f, 0.0f, 0.5f, -0.5f, -0.5f };
+    float vertices[] = { 0.0f, -0.0f, 0.0f, 0.0f, -0.0f, -0.0f };
     glVertexAttribPointer(program.positionAttribute, 2, GL_FLOAT, false, 0, vertices);
     glEnableVertexAttribArray(program.positionAttribute);
     glDrawArrays(GL_TRIANGLES, 0, 3);
