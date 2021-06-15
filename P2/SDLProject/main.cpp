@@ -25,14 +25,14 @@ glm::vec3 left_position = glm::vec3(-4.4, 0, 0);
 glm::vec3 right_movement = glm::vec3(0, 0, 0);
 glm::vec3 right_position = glm::vec3(4.4, 0, 0);
 
-glm::vec3 birdie_movement = glm::vec3(0, 0, 0);
+glm::vec3 birdie_movement = glm::vec3(1, 0.5, 0);
 glm::vec3 birdie_position = glm::vec3(0, 0, 0);
 
 
 
-float left_speed = 1.0f;
-float right_speed = 1.0f;
-float birdie_speed = 1.0f;
+float left_speed = 2.0f;
+float right_speed = 2.0f;
+float birdie_speed = 2.0f;
 float lastTicks = 0.0f;
 
 float start = false;
@@ -84,7 +84,7 @@ void Initialize() {
     
     program.SetProjectionMatrix(projectionMatrix);
     program.SetViewMatrix(viewMatrix);
-    program.SetColor(0.0f, 0.0f, 0.0f, 1.0f);
+    program.SetColor(1.0f, 1.0f, 1.0f, 1.0f);
     glEnable(GL_BLEND);
     // Good setting for transparency
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -104,7 +104,7 @@ void Initialize() {
 void ProcessInput() {
     left_movement = glm::vec3(0);
     right_movement = glm::vec3(0);
-    birdie_movement = glm::vec3(0);
+    //birdie_movement = glm::vec3(0);
     
 
     SDL_Event event;
@@ -140,29 +140,29 @@ void ProcessInput() {
     }
     // HOLDING ON THE A KEY ON KEYBOARD TO MOVE
     if (keys[SDL_SCANCODE_W]) {
-        left_movement.y = 2.0f;
+        left_movement.y = 1.0f;
     }
     else if (keys[SDL_SCANCODE_S]) {
-        left_movement.y = -2.0f;
+        left_movement.y = -1.0f;
     }
 
      if (keys[SDL_SCANCODE_UP]) {
-        right_movement.y = 2.0f;
+        right_movement.y = 1.0f;
     }
     else if (keys[SDL_SCANCODE_DOWN]) {
-        right_movement.y = -2.0f;
+        right_movement.y = -1.0f;
     }
 
     // MAKE SURE LEFT PLAYER, RIGHT PLATER AND BALL HAVE THE SAME SPEED.
-    if (glm::length(left_movement) > 2.0f) {
+    if (glm::length(left_movement) > 1.0f) {
         left_movement = glm::normalize(left_movement);
     }
 
-    if (glm::length(right_movement) > 2.0f) {
+    if (glm::length(right_movement) > 1.0f) {
         right_movement = glm::normalize(right_movement);
     }
 
-    if (glm::length(left_movement) > 2.0f) {
+    if (glm::length(left_movement) > 1.0f) {
         birdie_movement = glm::normalize(left_movement);
     }
 
@@ -177,11 +177,11 @@ void Update() {
     lastTicks = ticks;
 
     // LOSING CONDITION
-    if (birdie_position.x >= 4.4f || birdie_position.x <= -4.4f) {
+    if (birdie_position.x >= 4.7f || birdie_position.x <= -4.7f) {
         deltaTime = 0;
     }
 
-    // CHECK FOR RAKET BOUNDARIES
+    // CHECK FOR RAcKET BOUNDARIES
     if (left_position.y >= 3.2) {
         left_position.y = 3.2;
     }
@@ -196,35 +196,35 @@ void Update() {
     }
 
     // CHECK FOR COLLISION
-    float x_dist_left = fabs(birdie_position.x - left_position.x) - (0.0f);
-    float x_dist_right = fabs(birdie_position.x - right_position.x) - (0.0f);
+    float x_dist_left = fabs(birdie_position.x - left_position.x) - (0.3f);
     float y_dist_left = fabs(birdie_position.y - left_position.y) - (1.0f);
+
+    float x_dist_right = fabs(birdie_position.x - right_position.x) - (0.3f);
     float y_dist_right = fabs(birdie_position.y - right_position.y) - (1.0f);
 
     // FIRST 2 STATEMENTS TO SEE IF THE BALL IS TOUCHING RACKET
     if (x_dist_left < 0 && y_dist_left < 0) {
         birdie_movement.x = 1.0f;   // birdie go towards the right
-        if (birdie_movement.y > 0) {    // going from top towards bottom
-            birdie_movement.y = -1.0f;   // keep going bottom
+        if (birdie_movement.y > 0) {    // going from bottom to top
+            birdie_movement.y = 1.0f;   // keep going top
         }
         else {
-            birdie_movement.y = 1.0f;
+            birdie_movement.y = -1.0f;
         }
     }
     else if (x_dist_right < 0 && y_dist_right < 0) {
         birdie_movement.x = -1.0f;
-        if (birdie_movement.y > 0) {    // going from top towards bottom
-            birdie_movement.y = -1.0f;   // keep going bottom
+        if (birdie_movement.y > 0) {    
         }
-        else { birdie_movement.y = 1.0f;}
+        else { birdie_movement.y = -1.0f;}
     }
     // CHECK IF TOUCHING UP AND DOWN BOUNDARIES OR NOT
-    else if (birdie_position.y >= 4.4) {
+    else if (birdie_position.y >= 3.4) {
         birdie_movement.y = -1.0f;
-        if (birdie_movement.x = 1.0f) { birdie_movement.x = 1.0f;}
+        if (birdie_movement.x == 1.0f) { birdie_movement.x = 1.0f;}
         else{ birdie_movement.x = -1.0f; }
     }
-    else if (birdie_position.y <= -4.4) {
+    else if (birdie_position.y <= -3.4) {
         birdie_movement.y = 1.0f;
         if (birdie_movement.x >0) { birdie_movement.x = 1.0f; }
         else { birdie_movement.x = -1.0f; }
