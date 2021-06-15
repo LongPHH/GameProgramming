@@ -1,2 +1,23 @@
 ﻿  main.cpp
+C:\Users\gunny\Desktop\GameProgramming\P2\SDLProject\main.cpp(186,30): warning C4305: '=': truncation from 'double' to 'T'
+          with
+          [
+              T=float
+          ]
+C:\Users\gunny\Desktop\GameProgramming\P2\SDLProject\main.cpp(189,31): warning C4305: '=': truncation from 'double' to 'T'
+          with
+          [
+              T=float
+          ]
+C:\Users\gunny\Desktop\GameProgramming\P2\SDLProject\main.cpp(192,31): warning C4305: '=': truncation from 'double' to 'T'
+          with
+          [
+              T=float
+          ]
+C:\Users\gunny\Desktop\GameProgramming\P2\SDLProject\main.cpp(195,32): warning C4305: '=': truncation from 'double' to 'T'
+          with
+          [
+              T=float
+          ]
+C:\Users\gunny\Desktop\GameProgramming\P2\SDLProject\main.cpp(242,9): warning C4805: '==': unsafe mix of type 'float' and type 'bool' in operation
   SDLProject.vcxproj -> C:\Users\gunny\Desktop\GameProgramming\P2\SDLProject\Debug\SDLProject.exe

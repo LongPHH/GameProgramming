@@ -26,6 +26,7 @@ glm::vec3 right_movement = glm::vec3(0, 0, 0);
 glm::vec3 right_position = glm::vec3(4.4, 0, 0);
 
 glm::vec3 birdie_movement = glm::vec3(0, 0, 0);
+glm::vec3 birdie_position = glm::vec3(0, 0, 0);
 
 
 
@@ -134,7 +135,9 @@ void ProcessInput() {
     }
 
     const Uint8* keys = SDL_GetKeyboardState(NULL);
-
+    if (keys[SDL_SCANCODE_SPACE]) {
+        start = true;
+    }
     // HOLDING ON THE A KEY ON KEYBOARD TO MOVE
     if (keys[SDL_SCANCODE_W]) {
         left_movement.y = 2.0f;
@@ -163,9 +166,7 @@ void ProcessInput() {
         birdie_movement = glm::normalize(left_movement);
     }
 
-    if (keys[SDL_SCANCODE_SPACE]) {
-        start = true;
-    }
+    
 }
 
 
@@ -174,15 +175,75 @@ void Update() {
     float ticks = (float)SDL_GetTicks() / 1000.0f;
     float deltaTime = ticks - lastTicks;
     lastTicks = ticks;
+
+    // LOSING CONDITION
+    if (birdie_position.x >= 4.4f || birdie_position.x <= -4.4f) {
+        deltaTime = 0;
+    }
+
+    // CHECK FOR RAKET BOUNDARIES
+    if (left_position.y >= 3.2) {
+        left_position.y = 3.2;
+    }
+    else if (left_position.y <= -3.2) {
+        left_position.y = -3.2;
+    }
+    if (right_position.y >= 3.2) {
+        right_position.y = 3.2;
+    }
+    else if (right_position.y <= -3.2) {
+        right_position.y = -3.2;
+    }
+
+    // CHECK FOR COLLISION
+    float x_dist_left = fabs(birdie_position.x - left_position.x) - (0.0f);
+    float x_dist_right = fabs(birdie_position.x - right_position.x) - (0.0f);
+    float y_dist_left = fabs(birdie_position.y - left_position.y) - (1.0f);
+    float y_dist_right = fabs(birdie_position.y - right_position.y) - (1.0f);
+
+    // FIRST 2 STATEMENTS TO SEE IF THE BALL IS TOUCHING RACKET
+    if (x_dist_left < 0 && y_dist_left < 0) {
+        birdie_movement.x = 1.0f;   // birdie go towards the right
+        if (birdie_movement.y > 0) {    // going from top towards bottom
+            birdie_movement.y = -1.0f;   // keep going bottom
+        }
+        else {
+            birdie_movement.y = 1.0f;
+        }
+    }
+    else if (x_dist_right < 0 && y_dist_right < 0) {
+        birdie_movement.x = -1.0f;
+        if (birdie_movement.y > 0) {    // going from top towards bottom
+            birdie_movement.y = -1.0f;   // keep going bottom
+        }
+        else { birdie_movement.y = 1.0f;}
+    }
+    // CHECK IF TOUCHING UP AND DOWN BOUNDARIES OR NOT
+    else if (birdie_position.y >= 4.4) {
+        birdie_movement.y = -1.0f;
+        if (birdie_movement.x = 1.0f) { birdie_movement.x = 1.0f;}
+        else{ birdie_movement.x = -1.0f; }
+    }
+    else if (birdie_position.y <= -4.4) {
+        birdie_movement.y = 1.0f;
+        if (birdie_movement.x >0) { birdie_movement.x = 1.0f; }
+        else { birdie_movement.x = -1.0f; }
+    }
+
     // Add (direction * units per second * elapsed time)
     left_position += left_movement * left_speed * deltaTime;
     leftMatrix = glm::mat4(1.0f);
     leftMatrix = glm::translate(leftMatrix, left_position);
-    
+
     right_position += right_movement * right_speed * deltaTime;
     rightMatrix = glm::mat4(1.0f);
     rightMatrix = glm::translate(rightMatrix, right_position);
-    
+
+    if (start == true) {
+        birdie_position += birdie_movement * birdie_speed * deltaTime;
+        birdieMatrix = glm::mat4(1.0f);
+        birdieMatrix = glm::translate(birdieMatrix, birdie_position);
+    }
 }
 
 
