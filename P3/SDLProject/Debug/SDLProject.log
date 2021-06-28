@@ -1,2 +1,3 @@
 ﻿  main.cpp
+C:\Users\gunny\Desktop\GameProgramming\P3\SDLProject\main.cpp(48,23): warning C4018: '<': signed/unsigned mismatch
   SDLProject.vcxproj -> C:\Users\gunny\Desktop\GameProgramming\P3\SDLProject\Debug\SDLProject.exe

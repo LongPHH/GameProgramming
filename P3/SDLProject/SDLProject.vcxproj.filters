@@ -47,10 +47,13 @@
     <Image Include="platformPack_tile001.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="tileset.png">
+    <Image Include="platformPack_tile016.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="platformPack_tile016.png">
+    <Image Include="platformPack_tile020.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="font2.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

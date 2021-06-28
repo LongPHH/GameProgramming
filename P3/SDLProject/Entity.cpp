@@ -22,8 +22,9 @@ bool Entity::checkCollision(Entity* other) {
     return false;
 }
 
-void Entity::CheckCollisionsY(Entity* objects, int objectCount)
+bool Entity::CheckCollisionsY(Entity* objects, int objectCount)
 {
+    //bool flag = false;
     for (int i = 0; i < objectCount; i++)
     {
         Entity* object = &objects[i];
@@ -36,18 +37,22 @@ void Entity::CheckCollisionsY(Entity* objects, int objectCount)
                 collidedTop = true;
                 position.y -= penetrationY;
                 velocity.y = 0;
+                return true;  // collision detected, stop the player from moving
             }
             else if (velocity.y < 0) {
                 position.y += penetrationY;
                 velocity.y = 0;
                 collidedBottom = true;
+                return true;        // collision detected, stop the player from moving
             }
-        }
+        }   
     }
+    return false;
+   
 }
-
-void Entity::CheckCollisionsX(Entity* objects, int objectCount)
+bool Entity::CheckCollisionsX(Entity* objects, int objectCount)
 {
+    //bool flag = false;
     for (int i = 0; i < objectCount; i++)
     {
         Entity* object = &objects[i];
@@ -60,18 +65,25 @@ void Entity::CheckCollisionsX(Entity* objects, int objectCount)
                 position.x -= penetrationX;
                 velocity.x = 0;
                 collidedRight = true;
+                return true;            // collision detected, stop the player from moving
             }
             else if (velocity.x < 0) {
                 position.x += penetrationX;
                 velocity.x = 0;
                 collidedLeft = true;
-            }
+                return true;            // collision detected, stop the player from moving
+            }  
         }
     }
+    return false;
+    
 }
-void Entity::Update(float deltaTime, Entity* platforms, int platformCount)
+void Entity::Update(float deltaTime, Entity* platforms, int platformCount, Entity* winPlatform, int winPlatformCount)
 {
+    
     if (isActive == false) { return; }
+    if (win_flag == true) { return; }
+    if (lose_flag == true) {return; }
     collidedTop = false;
     collidedBottom = false;
     collidedLeft = false;
@@ -94,21 +106,16 @@ void Entity::Update(float deltaTime, Entity* platforms, int platformCount)
             animIndex = 0;
         }
     }
-
-    if (jump) {
-        jump = false;
-        velocity.y += jumpPower;
-    }
    
     velocity.x = movement.x * speed;
     velocity += acceleration * deltaTime;
 
     position.y += velocity.y * deltaTime; // Move on Y
-    CheckCollisionsY(platforms, platformCount);// Fix if needed
+    position.x += velocity.x * deltaTime; // Move on X 
+ 
+    lose_flag = CheckCollisionsX(platforms, platformCount) || CheckCollisionsY(platforms, platformCount);
+    win_flag = CheckCollisionsY(winPlatform, winPlatformCount) || CheckCollisionsX(winPlatform, winPlatformCount);
 
-    position.x += velocity.x * deltaTime; // Move on X
-    CheckCollisionsX(platforms, platformCount);// Fix if needed
-    
     modelMatrix = glm::mat4(1.0f);
     modelMatrix = glm::translate(modelMatrix, position);
 }

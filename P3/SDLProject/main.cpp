@@ -10,17 +10,21 @@
 #include "glm/mat4x4.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 #include "ShaderProgram.h"
+#include "vector"
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 
 #include "Entity.h"
 
-#define PLATFORM_COUNT 29
+#define PLATFORM_COUNT 28
+#define WIN_PLATFORM 1
 
 struct GameState {
     Entity *player;
     Entity* platforms;
+    Entity* winPlatform;
+
 };
 
 GameState state;
@@ -30,6 +34,59 @@ bool gameIsRunning = true;
 
 ShaderProgram program;
 glm::mat4 viewMatrix, modelMatrix, projectionMatrix;
+GLuint fontTextureID;
+
+void DrawText(ShaderProgram* program, GLuint fontTextureID, std::string text,
+    float size, float spacing, glm::vec3 position)
+{
+    float width = 1.0f / 16.0f;
+    float height = 1.0f / 16.0f;
+
+    std::vector<float> vertices;
+    std::vector<float> texCoords;
+
+    for (int i = 0; i < text.size(); i++) {
+
+        int index = (int)text[i];
+        float offset = (size + spacing) * i;
+        float u = (float)(index % 16) / 16.0f;
+        float v = (float)(index / 16) / 16.0f;
+        vertices.insert(vertices.end(), {
+             offset + (-0.5f * size), 0.5f * size,
+             offset + (-0.5f * size), -0.5f * size,
+             offset + (0.5f * size), 0.5f * size,
+             offset + (0.5f * size), -0.5f * size,
+             offset + (0.5f * size), 0.5f * size,
+             offset + (-0.5f * size), -0.5f * size,
+        });
+        texCoords.insert(texCoords.end(), {
+            u, v,
+            u, v + height,
+            u + width, v,
+            u + width, v + height,
+            u + width, v,
+            u, v + height,
+        });
+
+    } // end of for loop
+    glm::mat4 modelMatrix = glm::mat4(1.0f);
+    modelMatrix = glm::translate(modelMatrix, position);
+    program->SetModelMatrix(modelMatrix);
+
+    glUseProgram(program->programID);
+
+    glVertexAttribPointer(program->positionAttribute, 2, GL_FLOAT, false, 0, vertices.data());
+    glEnableVertexAttribArray(program->positionAttribute);
+
+    glVertexAttribPointer(program->texCoordAttribute, 2, GL_FLOAT, false, 0, texCoords.data());
+    glEnableVertexAttribArray(program->texCoordAttribute);
+
+    glBindTexture(GL_TEXTURE_2D, fontTextureID);
+    glDrawArrays(GL_TRIANGLES, 0, (int)(text.size() * 6));
+
+    glDisableVertexAttribArray(program->positionAttribute);
+    glDisableVertexAttribArray(program->texCoordAttribute);
+}
 
 GLuint LoadTexture(const char* filePath) {
     int w, h, n;
@@ -86,9 +143,9 @@ void Initialize() {
     
     // Initialize Player
     state.player = new Entity();
-    state.player->position = glm::vec3(-2,3,0);
+    state.player->position = glm::vec3(-1.6,3,0);
     state.player->movement = glm::vec3(0);
-    state.player->acceleration = glm::vec3(0, -0.18f, 0);
+    state.player->acceleration = glm::vec3(0, -0.195f, 0);
     state.player->speed = 3.0f;
     state.player->textureID = LoadTexture("george_0.png");
     
@@ -111,86 +168,87 @@ void Initialize() {
     state.player->jumpPower = 3.50f;
     
     state.platforms = new Entity[PLATFORM_COUNT];
-    GLuint platformTextureID = LoadTexture("platformPack_tile001.png");
-
+    GLuint platformTextureID = LoadTexture("platformPack_tile020.png");
+    state.winPlatform = new Entity[WIN_PLATFORM];
     GLuint winnerTextureID = LoadTexture("platformPack_tile016.png");
 
 
     // from left to right
-    state.platforms[10].textureID = platformTextureID;
-    state.platforms[10].position = glm::vec3(-5, -3.2f, 0);
-    state.platforms[0].textureID = platformTextureID;
-    state.platforms[0].position = glm::vec3(-4, -3.2f, 0);
-    state.platforms[1].textureID = platformTextureID;
-    state.platforms[1].position = glm::vec3(-3, -3.2f, 0);
-    state.platforms[2].textureID = platformTextureID;
-    state.platforms[2].position = glm::vec3(-2, -3.2f, 0);
-    state.platforms[3].textureID = platformTextureID;
-    state.platforms[3].position = glm::vec3(-1, -3.2f, 0);
-    state.platforms[4].textureID = platformTextureID;
-    state.platforms[4].position = glm::vec3(-0, -3.2f, 0);
-    state.platforms[5].textureID = platformTextureID;
-    state.platforms[5].position = glm::vec3(1, -3.2f, 0);
-    state.platforms[6].textureID = platformTextureID;
-    state.platforms[6].position = glm::vec3(2, -3.2f, 0);
-    state.platforms[7].textureID = platformTextureID;
-    state.platforms[7].position = glm::vec3(3, -3.2f, 0);
-    state.platforms[8].textureID = winnerTextureID;
-    state.platforms[8].position = glm::vec3(4, -3.2f, 0);
     state.platforms[9].textureID = platformTextureID;
-    state.platforms[9].position = glm::vec3(5, -3.2f, 0);
+    state.platforms[9].position = glm::vec3(-5, -3.25f, 0);
+    state.platforms[0].textureID = platformTextureID;
+    state.platforms[0].position = glm::vec3(-4, -3.25f, 0);
+    state.platforms[1].textureID = platformTextureID;
+    state.platforms[1].position = glm::vec3(-3, -3.25f, 0);
+    state.platforms[2].textureID = platformTextureID;
+    state.platforms[2].position = glm::vec3(-2, -3.25f, 0);
+    state.platforms[3].textureID = platformTextureID;
+    state.platforms[3].position = glm::vec3(-1, -3.25f, 0);
+    state.platforms[4].textureID = platformTextureID;
+    state.platforms[4].position = glm::vec3(-0, -3.25f, 0);
+    state.platforms[5].textureID = platformTextureID;
+    state.platforms[5].position = glm::vec3(1, -3.25f, 0);
+    state.platforms[6].textureID = platformTextureID;
+    state.platforms[6].position = glm::vec3(2, -3.25f, 0);
+    state.platforms[7].textureID = platformTextureID;
+    state.platforms[7].position = glm::vec3(3, -3.25f, 0);
+    state.platforms[8].textureID = platformTextureID;
+    state.platforms[8].position = glm::vec3(5, -3.25f, 0);
     
+    // LANDING TILE
+    state.winPlatform[0].textureID = winnerTextureID;
+    state.winPlatform[0].position = glm::vec3(4, -3.25f, 0);
 
     //top layer
+    state.platforms[10].textureID = platformTextureID;
+    state.platforms[10].position = glm::vec3(5, 1.75f, 0);
     state.platforms[11].textureID = platformTextureID;
-    state.platforms[11].position = glm::vec3(5, 2.4f, 0);
+    state.platforms[11].position = glm::vec3(4, 1.75f, 0);
     state.platforms[12].textureID = platformTextureID;
-    state.platforms[12].position = glm::vec3(4, 2.4f, 0);
+    state.platforms[12].position = glm::vec3(3, 1.75f, 0);
     state.platforms[13].textureID = platformTextureID;
-    state.platforms[13].position = glm::vec3(3, 2.4f, 0);
+    state.platforms[13].position = glm::vec3(2, 1.75f, 0);
     state.platforms[14].textureID = platformTextureID;
-    state.platforms[14].position = glm::vec3(2, 2.4f, 0);
+    state.platforms[14].position = glm::vec3(1, 1.75f, 0);
     state.platforms[15].textureID = platformTextureID;
-    state.platforms[15].position = glm::vec3(1, 2.4f, 0);
-    state.platforms[16].textureID = platformTextureID;
-    state.platforms[16].position = glm::vec3(0, 2.4f, 0);
-    state.platforms[20].textureID = platformTextureID;
-    state.platforms[20].position = glm::vec3(-0.5, 2.4f, 0);
-    state.platforms[17].textureID = platformTextureID;          // left side
-    state.platforms[17].position = glm::vec3(-5, 2.4f, 0);
-    state.platforms[18].textureID = platformTextureID;
-    state.platforms[18].position = glm::vec3(-4, 2.4f, 0);
+    state.platforms[15].position = glm::vec3(0, 1.75f, 0);
     state.platforms[19].textureID = platformTextureID;
-    state.platforms[19].position = glm::vec3(-3, 2.4f, 0);
-    
-    
-    //bottom layer
-    state.platforms[20].textureID = platformTextureID;
-    state.platforms[20].position = glm::vec3(-4, -0.8f, 0);
-    state.platforms[21].textureID = platformTextureID;
-    state.platforms[21].position = glm::vec3(-3, -0.8f, 0);
-    state.platforms[22].textureID = platformTextureID;
-    state.platforms[22].position = glm::vec3(-2, -0.8f, 0);
-    state.platforms[23].textureID = platformTextureID;
-    state.platforms[23].position = glm::vec3(-1, -0.8f, 0);
-    state.platforms[24].textureID = platformTextureID;
-    state.platforms[24].position = glm::vec3(0, -0.8f, 0);
-    state.platforms[25].textureID = platformTextureID;
-    state.platforms[25].position = glm::vec3(1, -0.8f, 0);
-    state.platforms[26].textureID = platformTextureID;
-    state.platforms[26].position = glm::vec3(-5, -0.8f, 0);
-    state.platforms[27].textureID = platformTextureID;
-    state.platforms[27].position = glm::vec3(2, -0.8f, 0);
-    state.platforms[28].textureID = platformTextureID;
-    state.platforms[28].position = glm::vec3(3, -0.8f, 0);
-    
-    
-    
+    state.platforms[19].position = glm::vec3(2, 1.75f, 0);
+    state.platforms[16].textureID = platformTextureID;          // left side
+    state.platforms[16].position = glm::vec3(-5, 1.75f, 0);
+    state.platforms[17].textureID = platformTextureID;
+    state.platforms[17].position = glm::vec3(-4, 1.75f, 0);
+    state.platforms[18].textureID = platformTextureID;
+    state.platforms[18].position = glm::vec3(-3, 1.75f, 0);
 
+    // left boundaries 
+    state.platforms[20].textureID = platformTextureID;
+    state.platforms[20].position = glm::vec3(-5, -2.25f, 0);
+    state.platforms[21].textureID = platformTextureID;
+    state.platforms[21].position = glm::vec3(-5, -1.25f, 0);
+    state.platforms[22].textureID = platformTextureID;
+    state.platforms[22].position = glm::vec3(-5, -0.25f, 0);
+    state.platforms[23].textureID = platformTextureID;
+    state.platforms[23].position = glm::vec3(-5, 0.75f, 0);
+
+    // right boundaries 
+    state.platforms[24].textureID = platformTextureID;
+    state.platforms[24].position = glm::vec3(5, -2.25f, 0);
+    state.platforms[25].textureID = platformTextureID;
+    state.platforms[25].position = glm::vec3(5, -1.25f, 0);
+    state.platforms[26].textureID = platformTextureID;
+    state.platforms[26].position = glm::vec3(5, -0.25f, 0);
+    state.platforms[27].textureID = platformTextureID;
+    state.platforms[27].position = glm::vec3(5, 0.75f, 0);
+   
 
     for (int i = 0; i < PLATFORM_COUNT; i++) {
-        state.platforms[i].Update(0, NULL, 0);
+        state.platforms[i].Update(0, NULL, 0, NULL, 0);
     }
+    state.winPlatform[0].Update(0, NULL, 0, NULL, 0);
+
+    //INTIALIZE FONT
+    fontTextureID = LoadTexture("font2.png");
  
 }
 
@@ -231,10 +289,14 @@ void ProcessInput() {
     if (keys[SDL_SCANCODE_LEFT]) {
         state.player->movement.x = -1.0f;
         state.player->animIndices = state.player->animLeft;
+        glm::vec3 shiftAclr = glm::vec3(-1.2f, 0, 0);
+        state.player->acceleration += shiftAclr;
     }
     else if (keys[SDL_SCANCODE_RIGHT]) {
         state.player->movement.x = 1.0f;
         state.player->animIndices = state.player->animRight;
+        glm::vec3 shiftAclr = glm::vec3(1.2f, 0, 0);
+        state.player->acceleration += shiftAclr;
     }
     
 
@@ -248,11 +310,12 @@ void ProcessInput() {
 float lastTicks = 0;
 float accumulator = 0.0f;
 void Update() {
+
     float ticks = (float)SDL_GetTicks() / 1000.0f;
     float deltaTime = ticks - lastTicks;
     lastTicks = ticks;
-
     deltaTime += accumulator;
+
     if (deltaTime < FIXED_TIMESTEP) {
         accumulator = deltaTime;
         return;
@@ -260,10 +323,7 @@ void Update() {
 
     while (deltaTime >= FIXED_TIMESTEP) {
         // Update. Notice it's FIXED_TIMESTEP. Not deltaTime
-        state.player->Update(FIXED_TIMESTEP, state.platforms,PLATFORM_COUNT);
-
-
-
+        state.player->Update(FIXED_TIMESTEP, state.platforms,PLATFORM_COUNT, state.winPlatform, WIN_PLATFORM);
         deltaTime -= FIXED_TIMESTEP;
     }
 
@@ -274,13 +334,26 @@ void Update() {
 void Render() {
     glClear(GL_COLOR_BUFFER_BIT);
 
+   
+    if (state.player->lose_flag){
+         DrawText(&program, fontTextureID, "Mission Failed", 0.5f, -0.25f,
+                glm::vec3(-4.75f, 3.3, 0));
+    }
+    else if (state.player->win_flag) {
+        DrawText(&program, fontTextureID, "Mission Successful", 0.5f, -0.25f,
+            glm::vec3(-4.75f, 3.3, 0));
+    }
+
+
     for (int i = 0; i < PLATFORM_COUNT; i++) {
         state.platforms[i].Render(&program);
     }
-    
+
+    state.winPlatform[0].Render(&program);
     state.player->Render(&program);
     
     SDL_GL_SwapWindow(displayWindow);
+
 }
 
 

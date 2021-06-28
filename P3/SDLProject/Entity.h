@@ -17,6 +17,7 @@ public:
     glm::vec3 movement;
     glm::vec3 acceleration;
     glm::vec3 velocity;
+
     float speed;
     
     float height = 1;
@@ -42,6 +43,8 @@ public:
     int animRows = 0;
     
     bool isActive = true;
+    bool win_flag = false;
+    bool lose_flag = false;
     
     bool collidedTop = false;
     bool collidedBottom = false;
@@ -49,9 +52,9 @@ public:
     bool collidedRight = false;
 
     Entity();
-    void CheckCollisionsY(Entity* objects, int objectCount);
-    void CheckCollisionsX(Entity* objects, int objectCount);
-    void Update(float deltaTime, Entity* platforms, int platformCount);
+    bool CheckCollisionsY(Entity* objects, int objectCount);
+    bool CheckCollisionsX(Entity* objects, int objectCount);
+    void Update(float deltaTime, Entity* platforms, int platformCount, Entity* winPlatform, int winPlatformCount);
     void Render(ShaderProgram *program);
     void DrawSpriteFromTextureAtlas(ShaderProgram *program, GLuint textureID, int index);
     bool checkCollision(Entity* other);
