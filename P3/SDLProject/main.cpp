@@ -16,7 +16,7 @@
 
 #include "Entity.h"
 
-#define PLATFORM_COUNT 22
+#define PLATFORM_COUNT 29
 
 struct GameState {
     Entity *player;
@@ -86,10 +86,10 @@ void Initialize() {
     
     // Initialize Player
     state.player = new Entity();
-    state.player->position = glm::vec3(0);
+    state.player->position = glm::vec3(-2,3,0);
     state.player->movement = glm::vec3(0);
-    state.player->acceleration = glm::vec3(0, -0.81f, 0);
-    state.player->speed = 2.0f;
+    state.player->acceleration = glm::vec3(0, -0.18f, 0);
+    state.player->speed = 3.0f;
     state.player->textureID = LoadTexture("george_0.png");
     
     state.player->animRight = new int[4] {3, 7, 11, 15};
@@ -113,20 +113,78 @@ void Initialize() {
     state.platforms = new Entity[PLATFORM_COUNT];
     GLuint platformTextureID = LoadTexture("platformPack_tile001.png");
 
+    GLuint winnerTextureID = LoadTexture("platformPack_tile016.png");
+
+
+    // from left to right
+    state.platforms[10].textureID = platformTextureID;
+    state.platforms[10].position = glm::vec3(-5, -3.2f, 0);
     state.platforms[0].textureID = platformTextureID;
-    state.platforms[0].position = glm::vec3(-1, -3.2f, 0);
+    state.platforms[0].position = glm::vec3(-4, -3.2f, 0);
     state.platforms[1].textureID = platformTextureID;
-    state.platforms[1].position = glm::vec3(0, -3.2f, 0);
+    state.platforms[1].position = glm::vec3(-3, -3.2f, 0);
     state.platforms[2].textureID = platformTextureID;
-    state.platforms[2].position = glm::vec3(1, -3.2f, 0);
+    state.platforms[2].position = glm::vec3(-2, -3.2f, 0);
     state.platforms[3].textureID = platformTextureID;
-    state.platforms[3].position = glm::vec3(-2, -3.2f, 0);
+    state.platforms[3].position = glm::vec3(-1, -3.2f, 0);
     state.platforms[4].textureID = platformTextureID;
-    state.platforms[4].position = glm::vec3(-3, -3.2f, 0);
+    state.platforms[4].position = glm::vec3(-0, -3.2f, 0);
     state.platforms[5].textureID = platformTextureID;
-    state.platforms[5].position = glm::vec3(2, -3.2f, 0);
+    state.platforms[5].position = glm::vec3(1, -3.2f, 0);
     state.platforms[6].textureID = platformTextureID;
-    state.platforms[6].position = glm::vec3(3, -3.2f, 0);
+    state.platforms[6].position = glm::vec3(2, -3.2f, 0);
+    state.platforms[7].textureID = platformTextureID;
+    state.platforms[7].position = glm::vec3(3, -3.2f, 0);
+    state.platforms[8].textureID = winnerTextureID;
+    state.platforms[8].position = glm::vec3(4, -3.2f, 0);
+    state.platforms[9].textureID = platformTextureID;
+    state.platforms[9].position = glm::vec3(5, -3.2f, 0);
+    
+
+    //top layer
+    state.platforms[11].textureID = platformTextureID;
+    state.platforms[11].position = glm::vec3(5, 2.4f, 0);
+    state.platforms[12].textureID = platformTextureID;
+    state.platforms[12].position = glm::vec3(4, 2.4f, 0);
+    state.platforms[13].textureID = platformTextureID;
+    state.platforms[13].position = glm::vec3(3, 2.4f, 0);
+    state.platforms[14].textureID = platformTextureID;
+    state.platforms[14].position = glm::vec3(2, 2.4f, 0);
+    state.platforms[15].textureID = platformTextureID;
+    state.platforms[15].position = glm::vec3(1, 2.4f, 0);
+    state.platforms[16].textureID = platformTextureID;
+    state.platforms[16].position = glm::vec3(0, 2.4f, 0);
+    state.platforms[20].textureID = platformTextureID;
+    state.platforms[20].position = glm::vec3(-0.5, 2.4f, 0);
+    state.platforms[17].textureID = platformTextureID;          // left side
+    state.platforms[17].position = glm::vec3(-5, 2.4f, 0);
+    state.platforms[18].textureID = platformTextureID;
+    state.platforms[18].position = glm::vec3(-4, 2.4f, 0);
+    state.platforms[19].textureID = platformTextureID;
+    state.platforms[19].position = glm::vec3(-3, 2.4f, 0);
+    
+    
+    //bottom layer
+    state.platforms[20].textureID = platformTextureID;
+    state.platforms[20].position = glm::vec3(-4, -0.8f, 0);
+    state.platforms[21].textureID = platformTextureID;
+    state.platforms[21].position = glm::vec3(-3, -0.8f, 0);
+    state.platforms[22].textureID = platformTextureID;
+    state.platforms[22].position = glm::vec3(-2, -0.8f, 0);
+    state.platforms[23].textureID = platformTextureID;
+    state.platforms[23].position = glm::vec3(-1, -0.8f, 0);
+    state.platforms[24].textureID = platformTextureID;
+    state.platforms[24].position = glm::vec3(0, -0.8f, 0);
+    state.platforms[25].textureID = platformTextureID;
+    state.platforms[25].position = glm::vec3(1, -0.8f, 0);
+    state.platforms[26].textureID = platformTextureID;
+    state.platforms[26].position = glm::vec3(-5, -0.8f, 0);
+    state.platforms[27].textureID = platformTextureID;
+    state.platforms[27].position = glm::vec3(2, -0.8f, 0);
+    state.platforms[28].textureID = platformTextureID;
+    state.platforms[28].position = glm::vec3(3, -0.8f, 0);
+    
+    
     
 
 

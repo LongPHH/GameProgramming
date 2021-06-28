@@ -47,5 +47,11 @@
     <Image Include="platformPack_tile001.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="tileset.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="platformPack_tile016.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

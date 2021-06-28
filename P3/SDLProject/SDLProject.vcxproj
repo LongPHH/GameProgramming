@@ -149,6 +149,8 @@
   <ItemGroup>
     <Image Include="george_0.png" />
     <Image Include="platformPack_tile001.png" />
+    <Image Include="platformPack_tile016.png" />
+    <Image Include="tileset.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
