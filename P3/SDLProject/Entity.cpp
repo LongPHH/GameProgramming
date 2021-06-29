@@ -80,7 +80,6 @@ bool Entity::CheckCollisionsX(Entity* objects, int objectCount)
 }
 void Entity::Update(float deltaTime, Entity* platforms, int platformCount, Entity* winPlatform, int winPlatformCount)
 {
-    
     if (isActive == false) { return; }
     if (win_flag == true) { return; }
     if (lose_flag == true) {return; }

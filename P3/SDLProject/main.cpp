@@ -17,8 +17,8 @@
 
 #include "Entity.h"
 
-#define PLATFORM_COUNT 28
-#define WIN_PLATFORM 1
+#define PLATFORM_COUNT 27
+#define WIN_PLATFORM 2
 
 struct GameState {
     Entity *player;
@@ -174,8 +174,8 @@ void Initialize() {
 
 
     // from left to right
-    state.platforms[9].textureID = platformTextureID;
-    state.platforms[9].position = glm::vec3(-5, -3.25f, 0);
+    state.platforms[8].textureID = platformTextureID;
+    state.platforms[8].position = glm::vec3(-5, -3.25f, 0);
     state.platforms[0].textureID = platformTextureID;
     state.platforms[0].position = glm::vec3(-4, -3.25f, 0);
     state.platforms[1].textureID = platformTextureID;
@@ -190,63 +190,66 @@ void Initialize() {
     state.platforms[5].position = glm::vec3(1, -3.25f, 0);
     state.platforms[6].textureID = platformTextureID;
     state.platforms[6].position = glm::vec3(2, -3.25f, 0);
+    /*state.platforms[7].textureID = platformTextureID;
+    state.platforms[7].position = glm::vec3(3, -3.25f, 0);*/
     state.platforms[7].textureID = platformTextureID;
-    state.platforms[7].position = glm::vec3(3, -3.25f, 0);
-    state.platforms[8].textureID = platformTextureID;
-    state.platforms[8].position = glm::vec3(5, -3.25f, 0);
+    state.platforms[7].position = glm::vec3(5, -3.25f, 0);
     
     // LANDING TILE
     state.winPlatform[0].textureID = winnerTextureID;
-    state.winPlatform[0].position = glm::vec3(4, -3.25f, 0);
+    state.winPlatform[0].position = glm::vec3(4, -3.2f, 0);
+    state.winPlatform[1].textureID = winnerTextureID;
+    state.winPlatform[1].position = glm::vec3(3, -3.2f, 0);
 
     //top layer
+    state.platforms[9].textureID = platformTextureID;
+    state.platforms[9].position = glm::vec3(5, 1.75f, 0);
     state.platforms[10].textureID = platformTextureID;
-    state.platforms[10].position = glm::vec3(5, 1.75f, 0);
+    state.platforms[10].position = glm::vec3(4, 1.75f, 0);
     state.platforms[11].textureID = platformTextureID;
-    state.platforms[11].position = glm::vec3(4, 1.75f, 0);
+    state.platforms[11].position = glm::vec3(3, 1.75f, 0);
     state.platforms[12].textureID = platformTextureID;
-    state.platforms[12].position = glm::vec3(3, 1.75f, 0);
+    state.platforms[12].position = glm::vec3(2, 1.75f, 0);
     state.platforms[13].textureID = platformTextureID;
-    state.platforms[13].position = glm::vec3(2, 1.75f, 0);
+    state.platforms[13].position = glm::vec3(1, 1.75f, 0);
     state.platforms[14].textureID = platformTextureID;
-    state.platforms[14].position = glm::vec3(1, 1.75f, 0);
-    state.platforms[15].textureID = platformTextureID;
-    state.platforms[15].position = glm::vec3(0, 1.75f, 0);
-    state.platforms[19].textureID = platformTextureID;
-    state.platforms[19].position = glm::vec3(2, 1.75f, 0);
-    state.platforms[16].textureID = platformTextureID;          // left side
-    state.platforms[16].position = glm::vec3(-5, 1.75f, 0);
-    state.platforms[17].textureID = platformTextureID;
-    state.platforms[17].position = glm::vec3(-4, 1.75f, 0);
+    state.platforms[14].position = glm::vec3(0, 1.75f, 0);
     state.platforms[18].textureID = platformTextureID;
-    state.platforms[18].position = glm::vec3(-3, 1.75f, 0);
+    state.platforms[18].position = glm::vec3(2, 1.75f, 0);
+    state.platforms[15].textureID = platformTextureID;          // left side
+    state.platforms[15].position = glm::vec3(-5, 1.75f, 0);
+    state.platforms[16].textureID = platformTextureID;
+    state.platforms[16].position = glm::vec3(-4, 1.75f, 0);
+    state.platforms[17].textureID = platformTextureID;
+    state.platforms[17].position = glm::vec3(-3, 1.75f, 0);
 
     // left boundaries 
+    state.platforms[19].textureID = platformTextureID;
+    state.platforms[19].position = glm::vec3(-5, -2.25f, 0);
     state.platforms[20].textureID = platformTextureID;
-    state.platforms[20].position = glm::vec3(-5, -2.25f, 0);
+    state.platforms[20].position = glm::vec3(-5, -1.25f, 0);
     state.platforms[21].textureID = platformTextureID;
-    state.platforms[21].position = glm::vec3(-5, -1.25f, 0);
+    state.platforms[21].position = glm::vec3(-5, -0.25f, 0);
     state.platforms[22].textureID = platformTextureID;
-    state.platforms[22].position = glm::vec3(-5, -0.25f, 0);
-    state.platforms[23].textureID = platformTextureID;
-    state.platforms[23].position = glm::vec3(-5, 0.75f, 0);
+    state.platforms[22].position = glm::vec3(-5, 0.75f, 0);
 
     // right boundaries 
+    state.platforms[23].textureID = platformTextureID;
+    state.platforms[23].position = glm::vec3(5, -2.25f, 0);
     state.platforms[24].textureID = platformTextureID;
-    state.platforms[24].position = glm::vec3(5, -2.25f, 0);
+    state.platforms[24].position = glm::vec3(5, -1.25f, 0);
     state.platforms[25].textureID = platformTextureID;
-    state.platforms[25].position = glm::vec3(5, -1.25f, 0);
+    state.platforms[25].position = glm::vec3(5, -0.25f, 0);
     state.platforms[26].textureID = platformTextureID;
-    state.platforms[26].position = glm::vec3(5, -0.25f, 0);
-    state.platforms[27].textureID = platformTextureID;
-    state.platforms[27].position = glm::vec3(5, 0.75f, 0);
+    state.platforms[26].position = glm::vec3(5, 0.75f, 0);
    
 
     for (int i = 0; i < PLATFORM_COUNT; i++) {
         state.platforms[i].Update(0, NULL, 0, NULL, 0);
     }
-    state.winPlatform[0].Update(0, NULL, 0, NULL, 0);
-
+    for (int j = 0; j < WIN_PLATFORM; j++) {
+        state.winPlatform[j].Update(0, NULL, 0, NULL, 0);
+    }
     //INTIALIZE FONT
     fontTextureID = LoadTexture("font2.png");
  
@@ -289,13 +292,13 @@ void ProcessInput() {
     if (keys[SDL_SCANCODE_LEFT]) {
         state.player->movement.x = -1.0f;
         state.player->animIndices = state.player->animLeft;
-        glm::vec3 shiftAclr = glm::vec3(-1.2f, 0, 0);
+        glm::vec3 shiftAclr = glm::vec3(-1.5f, 0, 0);
         state.player->acceleration += shiftAclr;
     }
     else if (keys[SDL_SCANCODE_RIGHT]) {
         state.player->movement.x = 1.0f;
         state.player->animIndices = state.player->animRight;
-        glm::vec3 shiftAclr = glm::vec3(1.2f, 0, 0);
+        glm::vec3 shiftAclr = glm::vec3(1.5f, 0, 0);
         state.player->acceleration += shiftAclr;
     }
     
@@ -348,8 +351,10 @@ void Render() {
     for (int i = 0; i < PLATFORM_COUNT; i++) {
         state.platforms[i].Render(&program);
     }
-
-    state.winPlatform[0].Render(&program);
+    for (int j = 0; j < WIN_PLATFORM; j++) {
+        state.winPlatform[j].Render(&program);
+    }
+    
     state.player->Render(&program);
     
     SDL_GL_SwapWindow(displayWindow);
