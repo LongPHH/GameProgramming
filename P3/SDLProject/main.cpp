@@ -290,15 +290,15 @@ void ProcessInput() {
     const Uint8 *keys = SDL_GetKeyboardState(NULL);
 
     if (keys[SDL_SCANCODE_LEFT]) {
-        state.player->movement.x = -1.0f;
+        //state.player->movement.x = -1.0f;
         state.player->animIndices = state.player->animLeft;
-        glm::vec3 shiftAclr = glm::vec3(-1.5f, 0, 0);
+        glm::vec3 shiftAclr = glm::vec3(-1.55f, 0, 0);
         state.player->acceleration += shiftAclr;
     }
     else if (keys[SDL_SCANCODE_RIGHT]) {
-        state.player->movement.x = 1.0f;
+        //state.player->movement.x = 1.0f;
         state.player->animIndices = state.player->animRight;
-        glm::vec3 shiftAclr = glm::vec3(1.5f, 0, 0);
+        glm::vec3 shiftAclr = glm::vec3(1.55f, 0, 0);
         state.player->acceleration += shiftAclr;
     }
     
