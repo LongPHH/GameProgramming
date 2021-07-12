@@ -143,6 +143,10 @@
       <FileType>Document</FileType>
     </CopyFileToFolders>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\..\..\..\SDL\SDL2_mixer\lib\x86\SDL2_mixer.dll" />
+    <None Include="..\..\..\..\..\..\SDL\SDL2_mixer\lib\x86\smpeg2.dll" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

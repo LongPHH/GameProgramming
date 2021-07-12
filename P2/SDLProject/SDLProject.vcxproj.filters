@@ -31,4 +31,8 @@
     <CopyFileToFolders Include="glew32.dll" />
     <CopyFileToFolders Include="SDL2.dll" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\..\..\..\SDL\SDL2_mixer\lib\x86\smpeg2.dll" />
+    <None Include="..\..\..\..\..\..\SDL\SDL2_mixer\lib\x86\SDL2_mixer.dll" />
+  </ItemGroup>
 </Project>

@@ -5,6 +5,7 @@
 #endif
 
 #define GL_GLEXT_PROTOTYPES 1
+#include <SDL_mixer.h>
 #include <SDL.h>
 #include <SDL_opengl.h>
 #include "glm/mat4x4.hpp"
@@ -39,6 +40,8 @@ float start = false;
 
 GLuint racket_left, racket_right, birdie;
 
+Mix_Music* music;
+Mix_Chunk* bounce;
 
 GLuint LoadTexture(const char* filePath) {
     int w, h, n;
@@ -74,6 +77,13 @@ void Initialize() {
     
     glViewport(0, 0, 640, 480);
     program.Load("shaders/vertex_textured.glsl", "shaders/fragment_textured.glsl");
+    // Start Audio
+    Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 4096);
+    music = Mix_LoadMUS("dooblydoo.mp3");
+    Mix_PlayMusic(music, -1);   //-1 means looping
+    Mix_VolumeMusic(MIX_MAX_VOLUME / 4);
+
+    bounce = Mix_LoadWAV("bounce.wav");
     
     viewMatrix = glm::mat4(1.0f);
     projectionMatrix = glm::ortho(-5.0f, 5.0f, -3.75f, 3.75f, -1.0f, 1.0f);
@@ -211,12 +221,16 @@ void Update() {
         else {
             birdie_movement.y = -1.0f;
         }
+        // sound effect
+        Mix_PlayChannel(-1, bounce, 0);
     }
     else if (x_dist_right < 0 && y_dist_right < 0) {
         birdie_movement.x = -1.0f;
         if (birdie_movement.y > 0) {    
         }
         else { birdie_movement.y = -1.0f;}
+        
+        Mix_PlayChannel(-1, bounce, 0);
     }
     // CHECK IF TOUCHING UP AND DOWN BOUNDARIES OR NOT
     else if (birdie_position.y >= 3.4) {
