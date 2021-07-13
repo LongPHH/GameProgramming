@@ -71,7 +71,16 @@ void Entity::CheckCollisionsX(Entity* objects, int objectCount)
 }
 
 void Entity::AIWalker() {
-    movement = glm::vec3(-1, 0, 0);
+    switch (aiState) {
+    case WALKING:
+        if (position.x < -3.94) {
+            movement = glm::vec3(1, 0, 0);
+        }
+        else if (position.x > -1.75) {
+            movement = glm::vec3(-1, 0, 0);
+        }
+
+    }
 }
 
 void Entity::AIJumper() {

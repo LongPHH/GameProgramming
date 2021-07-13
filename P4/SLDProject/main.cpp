@@ -156,8 +156,8 @@ void Initialize() {
     state.enemies[0].position = glm::vec3(-4, -2.25f, 0);
     state.enemies[0].speed = 1;
     state.enemies[0].acceleration = glm::vec3(0, -6.81f, 0);
-    state.enemies[0].aiType = WAITANDGO;
-    state.enemies[0].aiState = IDLE;
+    state.enemies[0].aiType = WALKER;
+    state.enemies[0].aiState = WALKING;
 
     // CHASING ZOMBIE
     state.enemies[1].entityType = ENEMY;
