@@ -11,8 +11,8 @@
 #include "glm/gtc/matrix_transform.hpp"
 #include "ShaderProgram.h"
 enum EntityType { PLAYER, PLATFORM, ENEMY };
-enum AIType{ WALKER,WAITANDGO, JUMPER };
-enum AIState { IDLE, WALKING, ATTACKING, JUMPING };
+enum AIType{ WALKER,WAITANDGO, FLOATER };
+enum AIState { IDLE, WALKING, ATTACKING, FLOATING };
 
 class Entity {
 public:
@@ -66,5 +66,7 @@ public:
     void AI(Entity* player);
     void AIWalker();
     void AIWaitAndGo(Entity* player);
-    void AIJumper();
+    void AIFloater();
+    bool enemyCollide(Entity* other);
+    bool playerAttack(Entity* other); 
 };

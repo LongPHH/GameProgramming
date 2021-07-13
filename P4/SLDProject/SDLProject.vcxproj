@@ -148,6 +148,7 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="ctg.png" />
+    <Image Include="font2.png" />
     <Image Include="george_0.png" />
     <Image Include="knight.png" />
     <Image Include="platformPack_tile001.png" />

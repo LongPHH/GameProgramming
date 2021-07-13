@@ -70,27 +70,58 @@ void Entity::CheckCollisionsX(Entity* objects, int objectCount)
     }
 }
 
+bool Entity::enemyCollide(Entity* other) {
+    // if player died or other died, return false
+    if ((isActive == false) || other->isActive == false) {
+        return false;
+    }
+    float xdist = (fabs(position.x - other->position.x)) - ((width + other->width) / 2.0f);
+    float ydist = (fabs(position.y - other->position.y)) - ((height + other->height) / 2.0f);
+
+    if (xdist < 0 && ydist < 0) {
+        return true;
+    }
+    return false;
+}
+
+bool Entity::playerAttack(Entity* other) {
+    // check if player touches zombies head
+    if (enemyCollide(other)) {   // if player and enemy collide
+        if (velocity.y < 0) {    // if player going from up to down -> killing the enemy
+            return true;
+        }
+    }
+    return false;
+
+}
+
 void Entity::AIWalker() {
     switch (aiState) {
+    case IDLE:
+        aiState = WALKING;
     case WALKING:
-        if (position.x < -3.94) {
-            movement = glm::vec3(1, 0, 0);
-        }
-        else if (position.x > -1.75) {
+        if (position.x >= 3) {
             movement = glm::vec3(-1, 0, 0);
         }
-
+        else if (position.x < 1.5) {
+            movement = glm::vec3(1, 0, 0);
+        }
     }
 }
 
-void Entity::AIJumper() {
+void Entity::AIFloater() {
     switch (aiState) {
-        case IDLE:
-            aiState = JUMPING;
-            break;
-        case JUMPING:
-            jump = true;
-            break;
+    case FLOATING:
+        if (position.y > 0.5) {
+            acceleration = glm::vec3(0, -1.0f, 0);
+        }
+        else if (position.y <= -2) {
+            acceleration = glm::vec3(0, 0.70f, 0);
+        }
+        else {
+            acceleration = acceleration;
+
+        }
     }
 }
 
@@ -127,8 +158,8 @@ void Entity::AI(Entity* player) {
         case WAITANDGO:
             AIWaitAndGo(player);
             break;
-        case JUMPER:
-            AIJumper();
+        case FLOATER:
+            AIFloater();
             break;
     }
     

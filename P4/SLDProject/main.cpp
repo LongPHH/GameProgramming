@@ -16,6 +16,7 @@
 
 #include "Entity.h"
 #include <iostream>
+#include "vector"
 using namespace std;
 
 
@@ -38,6 +39,7 @@ bool gameIsRunning = true;
 
 ShaderProgram program;
 glm::mat4 viewMatrix, modelMatrix, projectionMatrix;
+GLuint fontTextureID;
 
 GLuint LoadTexture(const char* filePath) {
     int w, h, n;
@@ -60,10 +62,60 @@ GLuint LoadTexture(const char* filePath) {
     return textureID;
 }
 
+void DrawText(ShaderProgram* program, GLuint fontTextureID, std::string text,
+    float size, float spacing, glm::vec3 position)
+{
+    float width = 1.0f / 16.0f;
+    float height = 1.0f / 16.0f;
 
+    std::vector<float> vertices;
+    std::vector<float> texCoords;
+
+    for (int i = 0; i < text.size(); i++) {
+
+        int index = (int)text[i];
+        float offset = (size + spacing) * i;
+        float u = (float)(index % 16) / 16.0f;
+        float v = (float)(index / 16) / 16.0f;
+        vertices.insert(vertices.end(), {
+             offset + (-0.5f * size), 0.5f * size,
+             offset + (-0.5f * size), -0.5f * size,
+             offset + (0.5f * size), 0.5f * size,
+             offset + (0.5f * size), -0.5f * size,
+             offset + (0.5f * size), 0.5f * size,
+             offset + (-0.5f * size), -0.5f * size,
+            });
+        texCoords.insert(texCoords.end(), {
+            u, v,
+            u, v + height,
+            u + width, v,
+            u + width, v + height,
+            u + width, v,
+            u, v + height,
+            });
+
+    } // end of for loop
+    glm::mat4 modelMatrix = glm::mat4(1.0f);
+    modelMatrix = glm::translate(modelMatrix, position);
+    program->SetModelMatrix(modelMatrix);
+
+    glUseProgram(program->programID);
+
+    glVertexAttribPointer(program->positionAttribute, 2, GL_FLOAT, false, 0, vertices.data());
+    glEnableVertexAttribArray(program->positionAttribute);
+
+    glVertexAttribPointer(program->texCoordAttribute, 2, GL_FLOAT, false, 0, texCoords.data());
+    glEnableVertexAttribArray(program->texCoordAttribute);
+
+    glBindTexture(GL_TEXTURE_2D, fontTextureID);
+    glDrawArrays(GL_TRIANGLES, 0, (int)(text.size() * 6));
+
+    glDisableVertexAttribArray(program->positionAttribute);
+    glDisableVertexAttribArray(program->texCoordAttribute);
+}
 void Initialize() {
     SDL_Init(SDL_INIT_VIDEO);
-    displayWindow = SDL_CreateWindow("Textured!", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 640, 480, SDL_WINDOW_OPENGL);
+    displayWindow = SDL_CreateWindow("Jump to win!", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 640, 480, SDL_WINDOW_OPENGL);
     SDL_GLContext context = SDL_GL_CreateContext(displayWindow);
     SDL_GL_MakeCurrent(displayWindow, context);
     
@@ -88,17 +140,18 @@ void Initialize() {
     glEnable(GL_BLEND);
 
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    
+
+    fontTextureID = LoadTexture("font2.png");
    
     // Initialize Game Objects
     
     // Initialize Player
     state.player = new Entity();
     state.player->entityType = PLAYER;
-    state.player->position = glm::vec3(4.0f,1.0f,0);
+    state.player->position = glm::vec3(4.55f,1.0f,0);
     state.player->movement = glm::vec3(0);
     state.player->acceleration = glm::vec3(0, -6.81f, 0);
-    state.player->speed = 1.40f;
+    state.player->speed = 2.40f;
     state.player->textureID = LoadTexture("slime.png");
     
     state.player->animRight = new int[7] {0,1,2,3,4,5,6};
@@ -116,7 +169,7 @@ void Initialize() {
 
     state.player->height = 0.8f;
     state.player->width = 0.6f;
-    state.player->jumpPower = 4.50f;
+    state.player->jumpPower = 5.50f;
     
     state.platforms = new Entity[PLATFORM_COUNT];
     GLuint platformTextureID = LoadTexture("platformPack_tile001.png");
@@ -135,7 +188,7 @@ void Initialize() {
     for (int i = curr_count; i < 30; ++i) {
         state.platforms->entityType = PLATFORM;
         state.platforms[i].textureID = platformTextureID;
-        state.platforms[i].position = glm::vec3(platform_position, 0.889f, 0);
+        state.platforms[i].position = glm::vec3(platform_position, 0.589f, 0);
         curr_count += 1;
         platform_position += 1;
     }
@@ -150,14 +203,15 @@ void Initialize() {
     state.enemies = new Entity[ENEMY_COUNT];
     GLuint enemyTextureID = LoadTexture("zombie.png");
 
-    // PATROL ZOMBIE
+    // FLOATING ZOMBIE
     state.enemies[0].entityType = ENEMY;
     state.enemies[0].textureID = enemyTextureID;
-    state.enemies[0].position = glm::vec3(-4, -2.25f, 0);
+    state.enemies[0].position = glm::vec3(-4, -2.0f, 0);
     state.enemies[0].speed = 1;
-    state.enemies[0].acceleration = glm::vec3(0, -6.81f, 0);
-    state.enemies[0].aiType = WALKER;
-    state.enemies[0].aiState = WALKING;
+    state.enemies[0].acceleration = glm::vec3(0, 1.81f, 0);
+    state.enemies[0].movement = glm::vec3(0, 1, 0);
+    state.enemies[0].aiType = FLOATER;
+    state.enemies[0].aiState = FLOATING;
 
     // CHASING ZOMBIE
     state.enemies[1].entityType = ENEMY;
@@ -168,14 +222,14 @@ void Initialize() {
     state.enemies[1].aiType = WAITANDGO;
     state.enemies[1].aiState = IDLE;
 
-    //JUMPING ZOMBIE
+    //patrol ZOMBIE
     state.enemies[2].entityType = ENEMY;
     state.enemies[2].textureID = enemyTextureID;
-    state.enemies[2].position = glm::vec3(2, 2, 0);
-    state.enemies[2].jumpPower = 1;
+    state.enemies[2].position = glm::vec3(0.5f, 1, 0);
+    state.enemies[2].speed = 1;
     state.enemies[2].acceleration = glm::vec3(0, -6.81f, 0);
-    state.enemies[2].aiType = JUMPER;
-    state.enemies[2].aiState = JUMPING;
+    state.enemies[2].aiType = WALKER;
+    state.enemies[2].aiState = WALKING;
 }
 
 void ProcessInput() {
@@ -245,11 +299,15 @@ void Update() {
     while (deltaTime >= FIXED_TIMESTEP) {
         // Update. Notice it's FIXED_TIMESTEP. Not deltaTime
         state.player->Update(FIXED_TIMESTEP, state.platforms,PLATFORM_COUNT, state.player);
-
         for (int i = 0; i < ENEMY_COUNT; ++i) {
             state.enemies[i].Update(FIXED_TIMESTEP, state.platforms, PLATFORM_COUNT, state.player);
+            if (state.player->playerAttack(&state.enemies[i]) == true) {
+                state.enemies[i].isActive = false;   // enemy dies 
+            }
+            if (state.player->enemyCollide(&state.enemies[i]) == true) {
+                state.player->isActive = false;   // player dies 
+            }
         }
-
         deltaTime -= FIXED_TIMESTEP;
     }
 
@@ -260,6 +318,14 @@ void Update() {
 void Render() {
     glClear(GL_COLOR_BUFFER_BIT);
 
+    if (state.player->isActive == false) {
+        DrawText(&program, fontTextureID, "You Lose!", 1, -0.5f, glm::vec3(-4.75f, 3.3, 0));
+    }
+
+    if (state.enemies[0].isActive == false && state.enemies[1].isActive == false && state.enemies[2].isActive == false) {
+        DrawText(&program, fontTextureID, "You Win!", 1, -0.5f, glm::vec3(-4.75f, 3.3, 0));
+    }
+
     for (int i = 0; i < PLATFORM_COUNT; i++) {
         state.platforms[i].Render(&program);
     }
@@ -267,6 +333,7 @@ void Render() {
         state.enemies[i].Render(&program);
     }
 
+    
 
     state.player->Render(&program);
     
