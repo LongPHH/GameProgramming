@@ -74,6 +74,17 @@ void Entity::AIWalker() {
     movement = glm::vec3(-1, 0, 0);
 }
 
+void Entity::AIJumper() {
+    switch (aiState) {
+        case IDLE:
+            aiState = JUMPING;
+            break;
+        case JUMPING:
+            jump = true;
+            break;
+    }
+}
+
 void Entity::AIWaitAndGo(Entity* player) {
     switch (aiState) {
     case IDLE:
@@ -101,13 +112,18 @@ void Entity::AIWaitAndGo(Entity* player) {
 
 void Entity::AI(Entity* player) {
     switch (aiType) {
-    case WALKER:
-        AIWalker();
-        break;
-    case WAITANDGO:
-        AIWaitAndGo(player);
-        break;
+        case WALKER:
+            AIWalker();
+            break;
+        case WAITANDGO:
+            AIWaitAndGo(player);
+            break;
+        case JUMPER:
+            AIJumper();
+            break;
     }
+    
+
     
 
 }

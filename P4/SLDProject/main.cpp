@@ -149,25 +149,33 @@ void Initialize() {
 
     state.enemies = new Entity[ENEMY_COUNT];
     GLuint enemyTextureID = LoadTexture("zombie.png");
-    state.enemies->entityType = ENEMY;
 
+    // PATROL ZOMBIE
+    state.enemies[0].entityType = ENEMY;
     state.enemies[0].textureID = enemyTextureID;
     state.enemies[0].position = glm::vec3(-4, -2.25f, 0);
-    state.enemies->speed = 1;
+    state.enemies[0].speed = 1;
+    state.enemies[0].acceleration = glm::vec3(0, -6.81f, 0);
     state.enemies[0].aiType = WAITANDGO;
     state.enemies[0].aiState = IDLE;
 
+    // CHASING ZOMBIE
+    state.enemies[1].entityType = ENEMY;
     state.enemies[1].textureID = enemyTextureID;
     state.enemies[1].position = glm::vec3(4, -2.25f, 0);
-    state.enemies->speed = 1;
+    state.enemies[1].speed = 1;
+    state.enemies[1].acceleration = glm::vec3(0, -6.81f, 0);
     state.enemies[1].aiType = WAITANDGO;
     state.enemies[1].aiState = IDLE;
 
+    //JUMPING ZOMBIE
+    state.enemies[2].entityType = ENEMY;
     state.enemies[2].textureID = enemyTextureID;
     state.enemies[2].position = glm::vec3(2, 2, 0);
-    state.enemies->speed = 1;
-    state.enemies[2].aiType = WAITANDGO;
-    state.enemies[2].aiState = IDLE;
+    state.enemies[2].jumpPower = 1;
+    state.enemies[2].acceleration = glm::vec3(0, -6.81f, 0);
+    state.enemies[2].aiType = JUMPER;
+    state.enemies[2].aiState = JUMPING;
 }
 
 void ProcessInput() {
