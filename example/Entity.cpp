@@ -113,7 +113,7 @@ void Entity::AI(Entity* player) {
 }
 
 
-void Entity::Update(float deltaTime, Entity* platforms, int platformCount,Entity* player)
+void Entity::Update(float deltaTime,Entity* player, Map* map)
 {
     if (isActive == false) { return; }
     collidedTop = false;
@@ -152,10 +152,10 @@ void Entity::Update(float deltaTime, Entity* platforms, int platformCount,Entity
     velocity += acceleration * deltaTime;
 
     position.y += velocity.y * deltaTime; // Move on Y
-    CheckCollisionsY(platforms, platformCount);// Fix if needed
+    //CheckCollisionsY(platforms, platformCount);// Fix if needed
 
     position.x += velocity.x * deltaTime; // Move on X
-    CheckCollisionsX(platforms, platformCount);// Fix if needed
+    //CheckCollisionsX(platforms, platformCount);// Fix if needed
     
     modelMatrix = glm::mat4(1.0f);
     modelMatrix = glm::translate(modelMatrix, position);

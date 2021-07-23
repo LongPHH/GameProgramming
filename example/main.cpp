@@ -13,20 +13,28 @@
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
-
 #include "Entity.h"
 
+#include "Map.h"
+// Add to top of file
+#define LEVEL1_WIDTH 14
+#define LEVEL1_HEIGHT 5
+unsigned int level1_data[] =
+{
+0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1,
+1, 1, 1, 1, 0, 0, 1, 1, 1, 2, 2, 2, 2, 2,
+2, 2, 2, 2, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2
+};
 
-
-
-
-#define PLATFORM_COUNT 11
 #define ENEMY_COUNT 1
 
 struct GameState {
     Entity *player;
-    Entity* platforms;
+    // Entity* platforms;
     Entity* enemies;
+    Map* map;
 };
 
 GameState state;
@@ -93,7 +101,7 @@ void Initialize() {
     // Initialize Player
     state.player = new Entity();
     state.player->entityType = PLAYER;
-    state.player->position = glm::vec3(-4.0f,-1,0);
+    state.player->position = glm::vec3(0,0,0);
     state.player->movement = glm::vec3(0);
     state.player->acceleration = glm::vec3(0, -6.81f, 0);
     state.player->speed = 1.40f;
@@ -116,18 +124,7 @@ void Initialize() {
     state.player->width = 0.6f;
     state.player->jumpPower = 3.50f;
     
-    state.platforms = new Entity[PLATFORM_COUNT];
-    GLuint platformTextureID = LoadTexture("platformPack_tile001.png");
-
-    for (int i = 0; i < PLATFORM_COUNT; ++i) {
-        state.platforms->entityType = PLATFORM;
-        state.platforms[i].textureID = platformTextureID;
-        state.platforms[i].position = glm::vec3(-5 + i, -3.25f, 0);
-    }
-
-    for (int i = 0; i < PLATFORM_COUNT; i++) {
-        state.platforms[i].Update(0, NULL, 0, NULL);
-    }
+   
     state.enemies = new Entity[ENEMY_COUNT];
     GLuint enemyTextureID = LoadTexture("ctg.png");
     state.enemies->entityType = ENEMY;
@@ -137,6 +134,10 @@ void Initialize() {
     state.enemies->speed = 1;
     state.enemies[0].aiType = WAITANDGO;
     state.enemies[0].aiState = IDLE;
+
+    GLuint mapTextureID = LoadTexture("tileset.png");
+    state.map = new Map(LEVEL1_WIDTH, LEVEL1_HEIGHT, level1_data, mapTextureID, 1.0f, 4, 1);
+
 }
 
 void ProcessInput() {
@@ -205,12 +206,13 @@ void Update() {
 
     while (deltaTime >= FIXED_TIMESTEP) {
         // Update. Notice it's FIXED_TIMESTEP. Not deltaTime
-        state.player->Update(FIXED_TIMESTEP, state.platforms,PLATFORM_COUNT, state.player);
+        state.player->Update(FIXED_TIMESTEP, state.player, state.map);
 
+        /*
         for (int i = 0; i < ENEMY_COUNT; ++i) {
             state.enemies[i].Update(FIXED_TIMESTEP, state.platforms, PLATFORM_COUNT, state.player);
         }
-
+        */
         deltaTime -= FIXED_TIMESTEP;
     }
 
@@ -220,14 +222,13 @@ void Update() {
 
 void Render() {
     glClear(GL_COLOR_BUFFER_BIT);
-
-    for (int i = 0; i < PLATFORM_COUNT; i++) {
-        state.platforms[i].Render(&program);
-    }
+    state.map->Render(&program);
+    
+    /*
     for (int i = 0; i < ENEMY_COUNT; i++) {
         state.enemies[i].Render(&program);
     }
-
+    */
 
     state.player->Render(&program);
     
