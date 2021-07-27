@@ -41,8 +41,8 @@ void Level1::Initialize() {
     state.player->animFrames = 6;
     state.player->animIndex = 0;
     state.player->animTime = 0;
-    state.player->animCols = 3;
-    state.player->animRows = 2;
+    state.player->animCols = 6;
+    state.player->animRows = 1;
 
 
     state.player->height = 0.8f;

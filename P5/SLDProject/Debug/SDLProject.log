@@ -1,2 +1,5 @@
-﻿  Level2.cpp
+﻿  Level1.cpp
+  Level2.cpp
+  Generating Code...
+  LINK : C:\Users\gunny\Desktop\GameProgramming\P5\SLDProject\Debug\SDLProject.exe not found or not built by the last incremental link; performing full link
   SDLProject.vcxproj -> C:\Users\gunny\Desktop\GameProgramming\P5\SLDProject\Debug\SDLProject.exe
