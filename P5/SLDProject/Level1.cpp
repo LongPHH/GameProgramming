@@ -35,16 +35,14 @@ void Level1::Initialize() {
 
     state.player->animRight = new int[3]{0,1,2 };
     state.player->animLeft = new int[3]{3,4,5 };
-    state.player->animUp = new int[4]{ 2, 6, 10, 14 };
-    state.player->animDown = new int[4]{ 0, 4, 8, 12 };
    
 
     state.player->animIndices = state.player->animRight;
-    state.player->animFrames = 4;
+    state.player->animFrames = 6;
     state.player->animIndex = 0;
     state.player->animTime = 0;
-    state.player->animCols = 4;
-    state.player->animRows = 4;
+    state.player->animCols = 3;
+    state.player->animRows = 2;
 
 
     state.player->height = 0.8f;

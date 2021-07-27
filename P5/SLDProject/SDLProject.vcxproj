@@ -159,6 +159,7 @@
   <ItemGroup>
     <Image Include="enemy.png" />
     <Image Include="player.png" />
+    <Image Include="sample.png" />
     <Image Include="tiles.png" />
     <Image Include="tile_0000.png" />
   </ItemGroup>
