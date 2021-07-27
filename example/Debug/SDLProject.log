@@ -1,3 +1,2 @@
-﻿main.obj : error LNK2019: unresolved external symbol "public: __thiscall Map::Map(int,int,unsigned int *,unsigned int,float,int,int)" (??0Map@@QAE@HHPAIIMHH@Z) referenced in function "void __cdecl Initialize(void)" (?Initialize@@YAXXZ)
-main.obj : error LNK2019: unresolved external symbol "public: void __thiscall Map::Render(class ShaderProgram *)" (?Render@Map@@QAEXPAVShaderProgram@@@Z) referenced in function "void __cdecl Render(void)" (?Render@@YAXXZ)
-C:\Users\gunny\Desktop\GameProgramming\example\Debug\SDLProject.exe : fatal error LNK1120: 2 unresolved externals
+﻿  main.cpp
+  SDLProject.vcxproj -> C:\Users\gunny\Desktop\GameProgramming\example\Debug\SDLProject.exe
