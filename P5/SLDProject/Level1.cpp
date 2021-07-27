@@ -33,8 +33,10 @@ void Level1::Initialize() {
     state.player->speed = 2.40f;
     state.player->textureID = Util::LoadTexture("player.png");
 
-    state.player->animRight = new int[3]{ 0,1,2 };
-    state.player->animLeft = new int[3]{ 3,4,5 };
+    state.player->animRight = new int[3]{0,1,2 };
+    state.player->animLeft = new int[3]{3,4,5 };
+    state.player->animUp = new int[4]{ 2, 6, 10, 14 };
+    state.player->animDown = new int[4]{ 0, 4, 8, 12 };
    
 
     state.player->animIndices = state.player->animRight;
