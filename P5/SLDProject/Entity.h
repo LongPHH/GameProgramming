@@ -14,8 +14,8 @@
 #include "map.h"
 
 enum EntityType { PLAYER, PLATFORM, ENEMY };
-enum AIType{ WALKER,WAITANDGO };
-enum AIState { IDLE, WALKING, ATTACKING };
+enum AIType{ WALKER,WAITANDGO, FLOATER};
+enum AIState { IDLE, WALKING, ATTACKING, FLOATING };
 
 class Entity {
 public:
@@ -68,8 +68,11 @@ public:
     void Render(ShaderProgram *program);
     void DrawSpriteFromTextureAtlas(ShaderProgram *program, GLuint textureID, int index);
     bool checkCollision(Entity* other);
+    bool enemyCollide(Entity* other);
+    bool playerAttack(Entity* other);
 
     void AI(Entity* player);
     void AIWalker();
     void AIWaitAndGo(Entity* player);
+    void AIFloater();
 };

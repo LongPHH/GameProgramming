@@ -162,9 +162,6 @@ void Entity::AI(Entity* player) {
             AIFloater();
             break;
     }
-    
-
-    
 
 }
 

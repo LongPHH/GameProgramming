@@ -138,11 +138,32 @@ void Entity::CheckCollisionsX(Map* map)
         collidedRight = true;
     }
 }
+bool Entity::enemyCollide(Entity* other) {
+    // if player died or other died, return false
+    if ((isActive == false) || other->isActive == false) {
+        return false;
+    }
+    float xdist = (fabs(position.x - other->position.x)) - ((width + other->width) / 2.0f);
+    float ydist = (fabs(position.y - other->position.y)) - ((height + other->height) / 2.0f);
 
-
-void Entity::AIWalker() {
-    movement = glm::vec3(-1, 0, 0);
+    if (xdist < 0 && ydist < 0) {
+        return true;
+    }
+    return false;
 }
+
+bool Entity::playerAttack(Entity* other) {
+    // check if player touches zombies head
+    if (enemyCollide(other)) {   // if player and enemy collide
+        if (velocity.y < 0) {    // if player going from up to down -> killing the enemy
+            return true;
+        }
+    }
+    return false;
+
+}
+
+
 
 void Entity::AIWaitAndGo(Entity* player) {
     switch (aiState) {
@@ -164,9 +185,38 @@ void Entity::AIWaitAndGo(Entity* player) {
 
     case ATTACKING:
         break;
-
     }
     
+}
+
+void Entity::AIWalker() {
+    switch (aiState) {
+    case IDLE:
+        aiState = WALKING;
+    case WALKING:
+        if (position.x >= 10) {
+            movement = glm::vec3(-1, 0, 0);
+        }
+        else if (position.x < 9.5) {
+            movement = glm::vec3(1, 0, 0);
+        }
+    }
+}
+
+void Entity::AIFloater() {
+    switch (aiState) {
+    case FLOATING:
+        if (position.y > 0.5) {
+            acceleration = glm::vec3(0, -1.0f, 0);
+        }
+        else if (position.y <= -2) {
+            acceleration = glm::vec3(0, 0.70f, 0);
+        }
+        else {
+            acceleration = acceleration;
+
+        }
+    }
 }
 
 void Entity::AI(Entity* player) {
@@ -177,11 +227,12 @@ void Entity::AI(Entity* player) {
     case WAITANDGO:
         AIWaitAndGo(player);
         break;
+    case FLOATER:
+        AIFloater();
+        break;
     }
-    
 
 }
-
 
 void Entity::Update(float deltaTime,Entity* player, Entity* objects, int objectCount, Map* map)
 {

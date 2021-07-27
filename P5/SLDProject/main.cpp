@@ -142,6 +142,8 @@ void Update() {
         deltaTime -= FIXED_TIMESTEP;
     }
 
+
+    // cursor
     accumulator = deltaTime;
     viewMatrix = glm::mat4(1.0f);
     if (currentScene->state.player->position.x > 5) {
