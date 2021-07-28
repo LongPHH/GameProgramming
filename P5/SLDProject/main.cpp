@@ -142,7 +142,6 @@ void Update() {
         deltaTime -= FIXED_TIMESTEP;
     }
 
-
     // cursor
     accumulator = deltaTime;
     viewMatrix = glm::mat4(1.0f);

@@ -14,6 +14,7 @@ Entity::Entity()
 }
 
 bool Entity::checkCollision(Entity* other) {
+    if (other == this) return false;
     if (isActive == false || other->isActive == false) { return false; }
     float xdist = fabs(position.x - other->position.x) - ((width + other->width) / 2.0f);
     float ydist = fabs(position.y - other->position.y) - ((height + other->height) / 2.0f);
@@ -22,6 +23,8 @@ bool Entity::checkCollision(Entity* other) {
         return true;
     }
     return false;
+
+   
 }
 
 void Entity::CheckCollisionsY(Entity* objects, int objectCount)
@@ -194,10 +197,10 @@ void Entity::AIWalker() {
     case IDLE:
         aiState = WALKING;
     case WALKING:
-        if (position.x >= 10) {
+        if (position.x >= 12) {
             movement = glm::vec3(-1, 0, 0);
         }
-        else if (position.x < 9.5) {
+        else if (position.x < 10.5) {
             movement = glm::vec3(1, 0, 0);
         }
     }
