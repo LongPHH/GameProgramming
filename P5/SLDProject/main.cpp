@@ -17,6 +17,7 @@
 #include "Scene.h"
 #include "Level1.h"
 #include "Level2.h"
+#include "Level3.h"
 
 
 
@@ -28,7 +29,7 @@ glm::mat4 viewMatrix, modelMatrix, projectionMatrix;
 
 // Add some variables and SwitchToScene function 
 Scene* currentScene;
-Scene* sceneList[2];
+Scene* sceneList[3];
 
 void SwitchToScene(Scene* scene) {
     currentScene = scene;
@@ -67,6 +68,7 @@ void Initialize() {
     
     sceneList[0] = new Level1();
     sceneList[1] = new Level2();
+    sceneList[2] = new Level3();
     SwitchToScene(sceneList[0]);
 
 }

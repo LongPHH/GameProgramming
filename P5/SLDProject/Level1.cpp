@@ -15,11 +15,13 @@ unsigned int level1_data[] =
  3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2
 };
 
+glm::vec3 randomvec1 = glm::vec3(1, -1, 0);
 
+GLuint fontID;
 void Level1::Initialize() {
 
     state.nextScene = -1;
-    
+    fontID = Util::LoadTexture("font2.png");
 	GLuint mapTextureID = Util::LoadTexture("tiles.png");
 	state.map = new Map(LEVEL1_WIDTH, LEVEL1_HEIGHT, level1_data, mapTextureID, 1.0f, 4, 1);
 	// Move over all of the player and enemy code from initialization.
@@ -71,16 +73,29 @@ void Level1::Update(float deltaTime) {
             state.enemies[i].isActive = false;   // enemy dies 
         }
         if (state.player->enemyCollide(&state.enemies[i]) == true) {
-            state.player->isActive = false;   // player dies 
+            state.player->lives -= 1;
+        }
+        if (state.player->lives <= 0) {
+            state.player->isActive = false;
         }
     }
 
     if (state.player->position.x >= 12.9) {
         state.nextScene = 1;
     }
+
+    // fall out of map
+    if (state.player->position.y <= -7) {
+        state.player->isActive = false;
+    }
 }
 void Level1::Render(ShaderProgram* program) {
 	state.map->Render(program);
 	state.player->Render(program);
     state.enemies->Render(program);
+
+    if (state.player->lives > 0) {
+        Util::DrawText(program, fontID,"lives " + std::to_string(state.player->lives), 0.8, -0.5f, randomvec1);
+    }
+    
 }

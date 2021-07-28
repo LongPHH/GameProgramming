@@ -39,6 +39,9 @@
     <ClCompile Include="Level2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Level3.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ShaderProgram.h">
@@ -65,6 +68,9 @@
     <ClInclude Include="Level2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Level3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="glew32.dll" />
@@ -78,6 +84,9 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="player.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="font2.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

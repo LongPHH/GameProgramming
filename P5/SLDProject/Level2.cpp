@@ -45,7 +45,7 @@ void Level2::Initialize() {
 
     state.player->height = 0.8f;
     state.player->width = 0.6f;
-    state.player->jumpPower = 3.50f;
+    state.player->jumpPower = 4.50f;
 
 
     state.enemies = new Entity[LEVEL2_ENEMY_COUNT];
@@ -53,7 +53,7 @@ void Level2::Initialize() {
 
     state.enemies[0].entityType = ENEMY;
     state.enemies[0].textureID = enemyTextureID;
-    state.enemies[0].position = glm::vec3(12, -3, 0);
+    state.enemies[0].position = glm::vec3(13, -3, 0);
     state.enemies[0].speed = 1;
     state.enemies[0].acceleration = glm::vec3(0, -0.81, 0);
     state.enemies[0].aiType = WALKER;
@@ -69,6 +69,11 @@ void Level2::Update(float deltaTime) {
         }
         if (state.player->enemyCollide(&state.enemies[i]) == true) {
             state.player->isActive = false;   // player dies 
+        }
+
+
+        if (state.player->position.x >= 12) {
+            state.nextScene = 2;
         }
     }
 }
