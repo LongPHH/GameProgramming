@@ -71,9 +71,8 @@ void Level2::Update(float deltaTime) {
             state.player->isActive = false;   // player dies 
         }
 
-
         if (state.player->position.x >= 12) {
-            state.nextScene = 2;
+            state.nextScene = 3;
         }
     }
 }

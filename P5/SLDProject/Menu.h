@@ -1,6 +1,5 @@
-
 #include "Scene.h"
-class Level1 : public Scene {
+class Menu : public Scene {
 
 public:
 	void Initialize() override;

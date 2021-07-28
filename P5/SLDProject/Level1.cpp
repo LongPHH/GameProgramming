@@ -19,7 +19,6 @@ glm::vec3 randomvec1 = glm::vec3(1, -1, 0);
 
 GLuint fontID;
 void Level1::Initialize() {
-
     state.nextScene = -1;
     fontID = Util::LoadTexture("font2.png");
 	GLuint mapTextureID = Util::LoadTexture("tiles.png");
@@ -81,7 +80,7 @@ void Level1::Update(float deltaTime) {
     }
 
     if (state.player->position.x >= 12.9) {
-        state.nextScene = 1;
+        state.nextScene = 2;
     }
 
     // fall out of map

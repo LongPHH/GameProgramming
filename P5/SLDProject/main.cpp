@@ -18,6 +18,7 @@
 #include "Level1.h"
 #include "Level2.h"
 #include "Level3.h"
+#include "Menu.h"
 
 
 
@@ -29,7 +30,7 @@ glm::mat4 viewMatrix, modelMatrix, projectionMatrix;
 
 // Add some variables and SwitchToScene function 
 Scene* currentScene;
-Scene* sceneList[3];
+Scene* sceneList[4];
 
 void SwitchToScene(Scene* scene) {
     currentScene = scene;
@@ -65,10 +66,10 @@ void Initialize() {
 
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
    
-    
-    sceneList[0] = new Level1();
-    sceneList[1] = new Level2();
-    sceneList[2] = new Level3();
+    sceneList[0] = new Menu();
+    sceneList[1] = new Level1();
+    sceneList[2] = new Level2();
+    sceneList[3] = new Level3();
     SwitchToScene(sceneList[0]);
 
 }
@@ -100,6 +101,8 @@ void ProcessInput() {
                             currentScene->state.player->jump = true;
                         }
                         break;
+                    case SDLK_RETURN:
+                        SwitchToScene(sceneList[1]);
                 }
                 break; // SDL_KEYDOWN
         }
@@ -143,9 +146,9 @@ void Update() {
         currentScene->Update(FIXED_TIMESTEP);
         deltaTime -= FIXED_TIMESTEP;
     }
+    accumulator = deltaTime;
 
     // cursor
-    accumulator = deltaTime;
     viewMatrix = glm::mat4(1.0f);
     if (currentScene->state.player->position.x > 5) {
         viewMatrix = glm::translate(viewMatrix, glm::vec3(-currentScene->state.player->position.x, 3.75, 0));
