@@ -74,13 +74,14 @@ void Level1::Update(float deltaTime) {
         if (state.player->enemyCollide(&state.enemies[i]) == true) {
             state.player->lives -= 1;
         }
-        if (state.player->lives <= 0) {
+
+        if (state.player->lives == 0) {
             state.player->isActive = false;
         }
     }
 
     if (state.player->position.x >= 12.9) {
-        state.nextScene = 2;
+        state.nextScene = 1;
     }
 
     // fall out of map

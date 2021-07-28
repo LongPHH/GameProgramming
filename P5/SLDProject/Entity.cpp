@@ -240,6 +240,7 @@ void Entity::AI(Entity* player) {
 void Entity::Update(float deltaTime,Entity* player, Entity* objects, int objectCount, Map* map)
 {
     if (isActive == false) { return; }
+
     collidedTop = false;
     collidedBottom = false;
     collidedLeft = false;

@@ -10,7 +10,7 @@ void Menu::Initialize() {
 }
 
 void Menu::Update(float deltatime) {
-
+	state.player->lives = 3;
 }
 
 void Menu::Render(ShaderProgram* program ) {
