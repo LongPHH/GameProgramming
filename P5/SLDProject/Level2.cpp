@@ -10,7 +10,7 @@ unsigned int level2_data[] =
  3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
  3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
  3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
- 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 3, 3,
+ 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 3, 2,
  3, 1, 1, 1, 1, 1, 1, 1, 0, 3, 3, 3, 3, 3,
  3, 2, 2, 2, 2, 2, 2, 2, 0, 3, 3, 3, 3, 3
 };
@@ -26,7 +26,7 @@ void Level2::Initialize() {
      // Initialize Player
     state.player = new Entity();
     state.player->entityType = PLAYER;
-    state.player->position = glm::vec3(5, 0, 0);
+    state.player->position = glm::vec3(1, -2, 0);
     state.player->movement = glm::vec3(0);
     state.player->acceleration = glm::vec3(0, -6.81f, 0);
     state.player->speed = 2.40f;
@@ -71,8 +71,8 @@ void Level2::Update(float deltaTime) {
             state.player->isActive = false;   // player dies 
         }
 
-        if (state.player->position.x >= 12) {
-            state.nextScene = 2;
+        if (state.player->position.x >= 12.5) {
+            state.nextScene = 3;
         }
     }
 }

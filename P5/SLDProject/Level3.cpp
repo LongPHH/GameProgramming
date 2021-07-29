@@ -9,7 +9,7 @@ unsigned int level3_data[] =
  3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
  3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
  3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
- 3, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 3,
+ 3, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 2,
  3, 0, 0, 0, 0, 0, 1, 1, 0, 3, 3, 0, 3, 3,
  3, 1, 1, 1, 1, 1, 1, 1, 0, 3, 3, 3, 3, 3,
  3, 2, 2, 2, 2, 2, 2, 2, 0, 3, 3, 3, 3, 3
@@ -26,7 +26,7 @@ void Level3::Initialize() {
      // Initialize Player
     state.player = new Entity();
     state.player->entityType = PLAYER;
-    state.player->position = glm::vec3(5, 0, 0);
+    state.player->position = glm::vec3(1, 0, 0);
     state.player->movement = glm::vec3(0);
     state.player->acceleration = glm::vec3(0, -6.81f, 0);
     state.player->speed = 2.40f;

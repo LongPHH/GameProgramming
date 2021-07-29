@@ -10,17 +10,20 @@
 #include "glm/mat4x4.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 #include "ShaderProgram.h"
-
+#include <SDL_mixer.h>
 #include "Util.h"
 #include "Entity.h"
 #include "Map.h"
+
 #include "Scene.h"
+#include "Menu.h"
 #include "Level1.h"
 #include "Level2.h"
 #include "Level3.h"
-#include "Menu.h"
 
 
+Mix_Music* music;
+Mix_Chunk* bounce;
 
 SDL_Window* displayWindow;
 bool gameIsRunning = true;
@@ -31,7 +34,6 @@ glm::mat4 viewMatrix, modelMatrix, projectionMatrix;
 // Add some variables and SwitchToScene function 
 Scene* currentScene;
 Scene* sceneList[4];
-int currSceneIndex;
 
 
 void SwitchToScene(Scene* scene) {
@@ -41,7 +43,7 @@ void SwitchToScene(Scene* scene) {
 
 
 void Initialize() {
-    SDL_Init(SDL_INIT_VIDEO);
+    SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
     displayWindow = SDL_CreateWindow("Textured!", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 640, 480, SDL_WINDOW_OPENGL);
     SDL_GLContext context = SDL_GL_CreateContext(displayWindow);
     SDL_GL_MakeCurrent(displayWindow, context);
@@ -49,7 +51,13 @@ void Initialize() {
 #ifdef _WINDOWS
     glewInit();
 #endif
-    
+    Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 4096);
+    music = Mix_LoadMUS("track.mp3");
+    Mix_PlayMusic(music, -1);
+    Mix_VolumeMusic(MIX_MAX_VOLUME / 3);
+
+    bounce = Mix_LoadWAV("jump.wav");
+
     glViewport(0, 0, 640, 480);
     
     program.Load("shaders/vertex_textured.glsl", "shaders/fragment_textured.glsl");
@@ -72,16 +80,17 @@ void Initialize() {
     sceneList[1] = new Level1();
     sceneList[2] = new Level2();
     sceneList[3] = new Level3();
-    currSceneIndex = 0;
-    SwitchToScene(sceneList[currSceneIndex]);
+    
+    SwitchToScene(sceneList[0]);
+    
     
 
 }
 
 void ProcessInput() {
-    
-    currentScene->state.player->movement = glm::vec3(0);
-    
+    if (currentScene != sceneList[0]){
+        currentScene->state.player->movement = glm::vec3(0);
+    }
     SDL_Event event;
     while (SDL_PollEvent(&event)) {
         switch (event.type) {
@@ -103,12 +112,12 @@ void ProcessInput() {
                     case SDLK_SPACE:
                         if (currentScene->state.player->collidedBottom) {
                             currentScene->state.player->jump = true;
+                            Mix_PlayChannel(-1, bounce, 0);
                         }
                         break;
                     case SDLK_RETURN:
-                        if (currSceneIndex = 0) {
-                            currSceneIndex = 1;
-                            SwitchToScene(sceneList[currSceneIndex]);
+                        if (currentScene == sceneList[0]) {
+                            SwitchToScene(sceneList[1]);
                         }
                 }
                 break; // SDL_KEYDOWN
@@ -116,20 +125,22 @@ void ProcessInput() {
     }
     
     const Uint8 *keys = SDL_GetKeyboardState(NULL);
+    if (currentScene != sceneList[0]) {
+        if (keys[SDL_SCANCODE_LEFT]) {
+            currentScene->state.player->movement.x = -1.0f;
+            currentScene->state.player->animIndices = currentScene->state.player->animLeft;
+        }
+        else if (keys[SDL_SCANCODE_RIGHT]) {
+            currentScene->state.player->movement.x = 1.0f;
+            currentScene->state.player->animIndices = currentScene->state.player->animRight;
+        }
 
-    if (keys[SDL_SCANCODE_LEFT]) {
-        currentScene->state.player->movement.x = -1.0f;
-        currentScene->state.player->animIndices = currentScene->state.player->animLeft;
-    }
-    else if (keys[SDL_SCANCODE_RIGHT]) {
-        currentScene->state.player->movement.x = 1.0f;
-        currentScene->state.player->animIndices = currentScene->state.player->animRight;
+
+        if (glm::length(currentScene->state.player->movement) > 1.0f) {
+            currentScene->state.player->movement = glm::normalize(currentScene->state.player->movement);
+        }
     }
     
-
-    if (glm::length(currentScene->state.player->movement) > 1.0f) {
-        currentScene->state.player->movement = glm::normalize(currentScene->state.player->movement);
-    }
 
 }
 
@@ -157,12 +168,15 @@ void Update() {
 
     // cursor
     viewMatrix = glm::mat4(1.0f);
-    if (currentScene->state.player->position.x > 5) {
-        viewMatrix = glm::translate(viewMatrix, glm::vec3(-currentScene->state.player->position.x, 3.75, 0));
+    if (currentScene != sceneList[0]) {
+        if (currentScene->state.player->position.x > 5) {
+            viewMatrix = glm::translate(viewMatrix, glm::vec3(-currentScene->state.player->position.x, 3.75, 0));
+        }
+        else {
+            viewMatrix = glm::translate(viewMatrix, glm::vec3(-5, 3.75, 0));
+        }
     }
-    else {
-        viewMatrix = glm::translate(viewMatrix, glm::vec3(-5, 3.75, 0));
-    }
+    
 
 }
 
