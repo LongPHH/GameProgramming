@@ -55,7 +55,7 @@ void Initialize() {
     Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 4096);
     music = Mix_LoadMUS("track.mp3");
     Mix_PlayMusic(music, -1);
-    Mix_VolumeMusic(MIX_MAX_VOLUME / 3);
+    Mix_VolumeMusic(MIX_MAX_VOLUME / 5);
 
     bounce = Mix_LoadWAV("jump.wav");
 

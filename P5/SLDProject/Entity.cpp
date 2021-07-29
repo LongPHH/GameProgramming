@@ -146,7 +146,7 @@ bool Entity::enemyCollide(Entity* other) {
     if ((isActive == false) || other->isActive == false) {
         return false;
     }
-    float xdist = (fabs(position.x - other->position.x)) - ((width + other->width) / 2.0f) ;
+    float xdist = (fabs(position.x - other->position.x)) - ((width + other->width) / 2.0f) - 0.2 ;
     float ydist = (fabs(position.y - other->position.y)) - ((height + other->height) / 2.0f) - 0.05f;
 
     if (xdist < 0 && ydist < 0) {
@@ -209,11 +209,11 @@ void Entity::AIWalker() {
 void Entity::AIFloater() {
     switch (aiState) {
     case FLOATING:
-        if (position.y > 4) {
+        if (position.y > 2.3f) {
             acceleration = glm::vec3(0, -1.0f, 0);
         }
-        else if (position.y <= 2) {
-            acceleration = glm::vec3(0, 0.70f, 0);
+        else if (position.y <= 1.4) {
+            acceleration = glm::vec3(0, 0.20f, 0);
         }
         else {
             acceleration = acceleration;

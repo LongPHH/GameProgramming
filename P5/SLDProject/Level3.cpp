@@ -10,7 +10,7 @@ unsigned int level3_data[] =
  3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
  3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
  3, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 2,
- 3, 0, 0, 0, 0, 0, 1, 1, 0, 3, 3, 0, 3, 3,
+ 3, 0, 0, 0, 0, 0, 1, 1, 0, 3, 3, 3, 3, 3,
  3, 1, 1, 1, 1, 1, 1, 1, 0, 3, 3, 3, 3, 3,
  3, 2, 2, 2, 2, 2, 2, 2, 0, 3, 3, 3, 3, 3
 };
@@ -58,7 +58,7 @@ void Level3::Initialize() {
     state.enemies[0].textureID = enemyTextureID;
     state.enemies[0].position = glm::vec3(11, -3, 0);
     state.enemies[0].speed = 1;
-    state.enemies[0].acceleration = glm::vec3(0, -0.81, 0);
+    state.enemies[0].acceleration = glm::vec3(0, -5.81, 0);
     state.enemies[0].aiType = FLOATER;
     state.enemies[0].aiState = FLOATING;
     
@@ -83,6 +83,7 @@ int Level3::Update(float deltaTime, int lives) {
     }
     if (state.player->position.x >= 12.9) {
         state.player->speed = 0;
+        state.player->jumpPower = 0;
     }
     
     // fall out of map
