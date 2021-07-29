@@ -99,16 +99,16 @@ void Level3::Render(ShaderProgram* program,int lives) {
     state.player->Render(program);
     state.enemies->Render(program);
     if (lives > 0) {
-        Util::DrawText(program, fontID3, "lives: " + std::to_string(lives), 0.8, -0.5f, randomvec3);
+        Util::DrawText(program, fontID3, "lives: " + std::to_string(lives), 0.4, -0.05f, randomvec3);
     }
 
     if (lives == 0) {
-        Util::DrawText(program, fontID3, "You Lose", 0.8, -0.5f, randomvec3);
+        Util::DrawText(program, fontID3, "You Lose", 0.4, -0.05f, glm::vec3(state.player->position.x, -3, 0));
 
     }
 
     if ( lives > 0 && state.player->position.x >= 12.9) {
-        Util::DrawText(program, fontID3, "You Win", 0.8, -0.5f, random3);
+        Util::DrawText(program, fontID3, "You Win", 0.8, -0.05f, random3);
     }
 }
 

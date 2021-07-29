@@ -101,10 +101,10 @@ void Level2::Render(ShaderProgram* program, int lives) {
     state.enemies->Render(program);
 
     if (lives > 0) {
-        Util::DrawText(program, fontID2, "lives: " + std::to_string(lives), 0.8, -0.5f, randomvec2);
+        Util::DrawText(program, fontID2, "lives: " + std::to_string(lives), 0.4, -0.05f, randomvec2);
     }
 
     if (lives == 0) {
-        Util::DrawText(program, fontID2, "You Lose", 0.8, -0.5f, random2);
+        Util::DrawText(program, fontID2, "You Lose", 0.4, -0.05f, glm::vec3(state.player->position.x, -3, 0));
     }
 }

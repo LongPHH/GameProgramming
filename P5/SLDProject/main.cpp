@@ -112,10 +112,13 @@ void ProcessInput() {
                         break;
                         
                     case SDLK_SPACE:
-                        if (currentScene->state.player->collidedBottom) {
-                            currentScene->state.player->jump = true;
-                            Mix_PlayChannel(-1, bounce, 0);
+                        if (currentScene != sceneList[0]) {
+                            if (currentScene->state.player->collidedBottom) {
+                                currentScene->state.player->jump = true;
+                                Mix_PlayChannel(-1, bounce, 0);
+                            }
                         }
+                        
                         break;
                     case SDLK_RETURN:
                         if (currentScene == sceneList[0]) {
