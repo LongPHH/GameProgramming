@@ -23,6 +23,6 @@ class Scene {
 public:
 	GameState state;
 	virtual void Initialize() = 0;
-	virtual void Update(float deltaTime) = 0;
-	virtual void Render(ShaderProgram* program) = 0;
+	virtual int Update(float deltaTime, int lives) = 0;
+	virtual void Render(ShaderProgram* program, int lives) = 0;
 };

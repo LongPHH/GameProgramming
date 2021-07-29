@@ -16,6 +16,8 @@ unsigned int level1_data[] =
 };
 
 glm::vec3 randomvec1 = glm::vec3(1, -1, 0);
+glm::vec3 random1 = glm::vec3(1, -3, 0);
+
 
 GLuint fontID;
 void Level1::Initialize() {
@@ -65,7 +67,7 @@ void Level1::Initialize() {
 }
 
 
-void Level1::Update(float deltaTime) {
+int Level1::Update(float deltaTime, int lives) {
 	state.player->Update(deltaTime, state.player, state.enemies, LEVEL1_ENEMY_COUNT, state.map);
     
     state.enemies[0].Update(deltaTime, state.player, state.enemies, LEVEL1_ENEMY_COUNT, state.map);
@@ -79,9 +81,8 @@ void Level1::Update(float deltaTime) {
 
     // if die then minus a life and reset
     if (state.player->isActive == false) {
-        state.player->lives  = state.player->lives - 1;
-
-        if (state.player->lives > 0) {
+        lives -= 1;
+        if (lives > 0) {
             state.nextScene = 1;   // reset the player
         }
     }
@@ -94,18 +95,20 @@ void Level1::Update(float deltaTime) {
     if (state.player->position.y <= -7) {
         state.player->isActive = false;
     }
+
+    return lives;
 }
-void Level1::Render(ShaderProgram* program) {
+void Level1::Render(ShaderProgram* program,int lives) {
 	state.map->Render(program);
 	state.player->Render(program);
     state.enemies[0].Render(program);
 
-    if (state.player->lives >0) {
-        Util::DrawText(program, fontID,"lives: " + std::to_string(state.player->lives) , 0.8, -0.5f, randomvec1);
+    if (lives >0) {
+        Util::DrawText(program, fontID,"lives: " + std::to_string(lives) , 0.8, -0.5f, randomvec1);
     }
     
-    if (state.player->lives == 0) {
-        Util::DrawText(program, fontID, "You Lose", 0.8, -0.5f, randomvec1);
+    if (lives == 0) {
+        Util::DrawText(program, fontID, "You Lose", 0.8, -0.5f, random1);
     }
     
 }

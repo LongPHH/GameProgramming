@@ -35,6 +35,7 @@ glm::mat4 viewMatrix, modelMatrix, projectionMatrix;
 Scene* currentScene;
 Scene* sceneList[4];
 
+int playerLives;
 
 void SwitchToScene(Scene* scene) {
     currentScene = scene;
@@ -82,6 +83,7 @@ void Initialize() {
     sceneList[3] = new Level3();
     
     SwitchToScene(sceneList[0]);
+    playerLives = 3;
     
     
 
@@ -149,26 +151,27 @@ float lastTicks = 0;
 float accumulator = 0.0f;
 
 void Update() {
-    float ticks = (float)SDL_GetTicks() / 1000.0f;
-    float deltaTime = ticks - lastTicks;
-    lastTicks = ticks;
+    if (currentScene != sceneList[0] && playerLives > 0) {
+        float ticks = (float)SDL_GetTicks() / 1000.0f;
+        float deltaTime = ticks - lastTicks;
+        lastTicks = ticks;
 
-    deltaTime += accumulator;
-    if (deltaTime < FIXED_TIMESTEP) {
+        deltaTime += accumulator;
+        if (deltaTime < FIXED_TIMESTEP) {
+            accumulator = deltaTime;
+            return;
+        }
+
+        while (deltaTime >= FIXED_TIMESTEP) {
+            // Update. Notice it's FIXED_TIMESTEP. Not deltaTime
+            playerLives = currentScene->Update(FIXED_TIMESTEP, playerLives);
+            deltaTime -= FIXED_TIMESTEP;
+        }
         accumulator = deltaTime;
-        return;
-    }
 
-    while (deltaTime >= FIXED_TIMESTEP) {
-        // Update. Notice it's FIXED_TIMESTEP. Not deltaTime
-        currentScene->Update(FIXED_TIMESTEP);
-        deltaTime -= FIXED_TIMESTEP;
-    }
-    accumulator = deltaTime;
-
-    // cursor
-    viewMatrix = glm::mat4(1.0f);
-    if (currentScene != sceneList[0]) {
+        // cursor
+        viewMatrix = glm::mat4(1.0f);
+        
         if (currentScene->state.player->position.x > 5) {
             viewMatrix = glm::translate(viewMatrix, glm::vec3(-currentScene->state.player->position.x, 3.75, 0));
         }
@@ -176,8 +179,6 @@ void Update() {
             viewMatrix = glm::translate(viewMatrix, glm::vec3(-5, 3.75, 0));
         }
     }
-    
-
 }
 
 
@@ -185,7 +186,7 @@ void Render() {
     glClear(GL_COLOR_BUFFER_BIT);
     program.SetViewMatrix(viewMatrix);
   
-    currentScene->Render(&program);
+    currentScene->Render(&program,playerLives);
 
     SDL_GL_SwapWindow(displayWindow);
 }

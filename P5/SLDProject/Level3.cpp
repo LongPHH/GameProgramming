@@ -15,10 +15,13 @@ unsigned int level3_data[] =
  3, 2, 2, 2, 2, 2, 2, 2, 0, 3, 3, 3, 3, 3
 };
 
+glm::vec3 randomvec3 = glm::vec3(1, -1, 0);
+glm::vec3 random3 = glm::vec3(10, -3, 0);
+GLuint fontID3;
 
 void Level3::Initialize() {
     state.nextScene = -1;
-
+    fontID3 = Util::LoadTexture("font2.png");
     GLuint mapTextureID = Util::LoadTexture("tiles.png");
     state.map = new Map(LEVEL3_WIDTH, LEVEL3_HEIGHT, level3_data, mapTextureID, 1.0f, 4, 1);
     // Move over all of the player and enemy code from initialization.
@@ -53,31 +56,59 @@ void Level3::Initialize() {
 
     state.enemies[0].entityType = ENEMY;
     state.enemies[0].textureID = enemyTextureID;
-    state.enemies[0].position = glm::vec3(12, -3, 0);
+    state.enemies[0].position = glm::vec3(11, -3, 0);
     state.enemies[0].speed = 1;
     state.enemies[0].acceleration = glm::vec3(0, -0.81, 0);
-    state.enemies[0].aiType = WALKER;
-    state.enemies[0].aiState = IDLE;
-    state.enemies[0].isActive = false;
+    state.enemies[0].aiType = FLOATER;
+    state.enemies[0].aiState = FLOATING;
+    
 
 }
-void Level3::Update(float deltaTime) {
+int Level3::Update(float deltaTime, int lives) {
     state.player->Update(deltaTime, state.player, state.enemies, LEVEL3_ENEMY_COUNT, state.map);
-    for (int i = 0; i < LEVEL3_ENEMY_COUNT; ++i) {
-        state.enemies[i].Update(deltaTime, state.player, state.enemies, LEVEL3_ENEMY_COUNT, state.map);
-        if (state.player->playerAttack(&state.enemies[i]) == true) {
-            state.enemies[i].isActive = false;   // enemy dies 
-        }
-        if (state.player->enemyCollide(&state.enemies[i]) == true) {
-            state.player->isActive = false;   // player dies 
-        }
-
-
-        
+    
+    state.enemies[0].Update(deltaTime, state.player, state.enemies, LEVEL3_ENEMY_COUNT, state.map);
+    if (state.player->playerAttack(&state.enemies[0]) == true) {
+        state.enemies[0].isActive = false;   // enemy dies 
     }
+    if (state.player->enemyCollide(&state.enemies[0]) == true) {
+        state.player->isActive = false;   // player dies 
+    }
+
+    if (state.player->isActive == false) {
+        lives -= 1;
+        if (lives > 0) {
+            state.nextScene = 1;   // reset the player
+        }
+    }
+    if (state.player->position.x >= 12.9) {
+        state.player->speed = 0;
+    }
+    
+    // fall out of map
+    if (state.player->position.y <= -7) {
+        state.player->isActive = false;
+    }
+
+    return lives;
+        
+    
 }
-void Level3::Render(ShaderProgram* program) {
+void Level3::Render(ShaderProgram* program,int lives) {
     state.map->Render(program);
     state.player->Render(program);
     state.enemies->Render(program);
+    if (lives > 0) {
+        Util::DrawText(program, fontID3, "lives: " + std::to_string(lives), 0.8, -0.5f, randomvec3);
+    }
+
+    if (lives == 0) {
+        Util::DrawText(program, fontID3, "You Lose", 0.8, -0.5f, randomvec3);
+
+    }
+
+    if ( lives > 0 && state.player->position.x >= 12.9) {
+        Util::DrawText(program, fontID3, "You Win", 0.8, -0.5f, random3);
+    }
 }
+

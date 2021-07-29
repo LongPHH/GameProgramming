@@ -39,7 +39,6 @@ public:
     
     glm::mat4 modelMatrix;
 
-    int lives = 3;
     
     int *animRight = NULL;
     int *animLeft = NULL;

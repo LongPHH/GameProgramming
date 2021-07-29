@@ -209,10 +209,10 @@ void Entity::AIWalker() {
 void Entity::AIFloater() {
     switch (aiState) {
     case FLOATING:
-        if (position.y > 0.5) {
+        if (position.y > 4) {
             acceleration = glm::vec3(0, -1.0f, 0);
         }
-        else if (position.y <= -2) {
+        else if (position.y <= 2) {
             acceleration = glm::vec3(0, 0.70f, 0);
         }
         else {
