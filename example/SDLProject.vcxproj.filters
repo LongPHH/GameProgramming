@@ -39,6 +39,9 @@
     <ClCompile Include="Level2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Effects.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ShaderProgram.h">
@@ -65,6 +68,9 @@
     <ClInclude Include="Level2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Effects.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="glew32.dll" />
@@ -83,5 +89,12 @@
     <Image Include="ctg.png">
       <Filter>Resource Files</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shaders\fragment.glsl" />
+    <None Include="shaders\fragment_textured.glsl" />
+    <None Include="shaders\vertex.glsl" />
+    <None Include="shaders\vertex_textured.glsl" />
+    <None Include="shaders\effects_textured.glsl" />
   </ItemGroup>
 </Project>
