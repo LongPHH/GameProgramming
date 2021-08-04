@@ -162,11 +162,11 @@ void Update() {
         viewMatrix = glm::translate(viewMatrix, glm::vec3(-5, 3.75, 0));
     }*/
 
-    if (currentScene->state.player->position.y > 9) {
-        viewMatrix = glm::translate(viewMatrix, glm::vec3(5, -currentScene->state.player->position.y, 0));
+    if (currentScene->state.player->position.y > 4) {
+        viewMatrix = glm::translate(viewMatrix, glm::vec3(-5, -currentScene->state.player->position.y, 0));
     }
     else {
-        viewMatrix = glm::translate(viewMatrix, glm::vec3(5, -9, 0));
+        viewMatrix = glm::translate(viewMatrix, glm::vec3(-5,-9, 0));
     }
 
     //viewMatrix = glm::translate(viewMatrix, effects->viewOffset);
