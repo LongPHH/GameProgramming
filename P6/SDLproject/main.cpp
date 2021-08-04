@@ -155,18 +155,13 @@ void Update() {
 
     accumulator = deltaTime;
     viewMatrix = glm::mat4(1.0f);
-    /*if (currentScene->state.player->position.x > 5) {
-        viewMatrix = glm::translate(viewMatrix, glm::vec3(-currentScene->state.player->position.x, 3.75, 0));
-    }
-    else {
-        viewMatrix = glm::translate(viewMatrix, glm::vec3(-5, 3.75, 0));
-    }*/
+    
 
-    if (currentScene->state.player->position.y > -8) {
+    if (currentScene->state.player->position.y > -13.75) {
         viewMatrix = glm::translate(viewMatrix, glm::vec3(-5, -currentScene->state.player->position.y, 0));
     }
     else {
-        viewMatrix = glm::translate(viewMatrix, glm::vec3(-5,5.75, 0));
+        viewMatrix = glm::translate(viewMatrix, glm::vec3(-5,13.75f, 0));
     }
 
     //viewMatrix = glm::translate(viewMatrix, effects->viewOffset);

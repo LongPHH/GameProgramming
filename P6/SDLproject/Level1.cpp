@@ -1,16 +1,24 @@
 #include "Level1.h"
 #define LEVEL1_WIDTH 9
-#define LEVEL1_HEIGHT 12
+#define LEVEL1_HEIGHT 18
 
 #define LEVEL1_ENEMY_COUNT 1
 unsigned int level1_data[] =
 {
+ 3, 0, 0, 0, 0, 0, 0, 0, 3,
+ 3, 0, 0, 0, 0, 0, 0, 0, 3,
+ 3, 0, 0, 0, 0, 0, 0, 0, 3,
+ 3, 0, 0, 0, 0, 0, 0, 0, 3,
+ 3, 0, 0, 0, 0, 0, 0, 0, 3,
+ 3, 0, 0, 0, 0, 0, 0, 0, 3,
+ 3, 0, 0, 0, 0, 0, 0, 0, 3,
+ 3, 0, 0, 0, 0, 0, 0, 0, 3,
  3, 0, 0, 2, 0, 0, 0, 0, 3, 
  3, 0, 0, 0, 0, 0, 0, 0, 3, 
- 3, 0, 0, 0, 0, 0, 0, 1, 3, 
+ 3, 0, 0, 0, 0, 0, 1, 0, 3, 
+ 3, 0, 0, 1, 0, 0, 0, 0, 3, 
  3, 0, 0, 0, 0, 0, 0, 0, 3, 
- 3, 0, 0, 0, 0, 0, 0, 0, 3, 
- 3, 0, 2, 0, 0, 0, 0, 0, 3, 
+ 3, 0, 1, 0, 0, 0, 0, 0, 3, 
  3, 0, 0, 0, 3, 0, 0, 0, 3, 
  3, 0, 0, 0, 0, 0, 0, 1, 3, 
  3, 0, 0, 0, 0, 0, 0, 0, 3, 
@@ -30,7 +38,7 @@ void Level1::Initialize() {
      // Initialize Player
     state.player = new Entity();
     state.player->entityType = PLAYER;
-    state.player->position = glm::vec3(4, -7, 0);
+    state.player->position = glm::vec3(4, -17, 0);
     state.player->movement = glm::vec3(0);
     state.player->acceleration = glm::vec3(0, -6.81f, 0);
     state.player->speed = 2.40f;
@@ -67,7 +75,7 @@ void Level1::Initialize() {
 }
 void Level1::Update(float deltaTime) {
 	state.player->Update(deltaTime, state.player, state.enemies, LEVEL1_ENEMY_COUNT, state.map);
-    if (state.player->position.x >= 12) {
+    if (state.player->position.y >= -7.5 && state.player->position.x == 3) {
         state.nextScene = 1;
     }
 }
