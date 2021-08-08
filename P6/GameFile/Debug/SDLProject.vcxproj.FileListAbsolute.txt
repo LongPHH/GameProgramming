@@ -1,0 +1,6 @@
+C:\Users\gunny\Desktop\GameProgramming\example\Debug\SDLProject.exe
+C:\Users\gunny\Desktop\GameProgramming\P6\SDLproject\Debug\SDLProject.exe
+C:\Users\gunny\Desktop\SDLproject\Debug\SDLProject.exe
+C:\Users\gunny\Desktop\P6 test\Debug\SDLProject.exe
+C:\Users\gunny\Desktop\P6\Debug\SDLProject.exe
+C:\Users\gunny\Desktop\GameProgramming\P6\GameFile\Debug\SDLProject.exe

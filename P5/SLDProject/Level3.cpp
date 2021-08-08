@@ -93,7 +93,6 @@ int Level3::Update(float deltaTime, int lives) {
 
     return lives;
         
-    
 }
 void Level3::Render(ShaderProgram* program,int lives) {
     state.map->Render(program);

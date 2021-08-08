@@ -168,6 +168,7 @@
   </ItemGroup>
   <ItemGroup>
     <Media Include="jump.mp3" />
+    <Media Include="jump.wav" />
     <Media Include="track.wav" />
   </ItemGroup>
   <ItemGroup>

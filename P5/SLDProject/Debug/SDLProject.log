@@ -1,1 +1,8 @@
-﻿  SDLProject.vcxproj -> C:\Users\gunny\Desktop\GameProgramming\P5\SLDProject\Debug\SDLProject.exe
+﻿  Entity.cpp
+C:\Users\gunny\Desktop\GameProgramming\P5\SLDProject\Entity.cpp(149,17): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+  Level3.cpp
+C:\Users\gunny\Desktop\GameProgramming\P5\SLDProject\Level3.cpp(102,100): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\gunny\Desktop\GameProgramming\P5\SLDProject\Level3.cpp(106,109): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\gunny\Desktop\GameProgramming\P5\SLDProject\Level3.cpp(111,73): warning C4305: 'argument': truncation from 'double' to 'float'
+  Generating Code...
+  SDLProject.vcxproj -> C:\Users\gunny\Desktop\GameProgramming\P5\SLDProject\Debug\SDLProject.exe

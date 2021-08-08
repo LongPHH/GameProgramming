@@ -183,13 +183,13 @@ void Entity::AIWaitAndGo(Entity* player) {
         else {
             movement = glm::vec3(1, 0, 0);
         }
-        
+
         break;
 
     case ATTACKING:
         break;
     }
-    
+
 }
 
 void Entity::AIWalker() {
