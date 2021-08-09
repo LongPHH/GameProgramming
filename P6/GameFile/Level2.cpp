@@ -13,15 +13,15 @@ unsigned int level2_data[] =
  3, 0, 0, 0, 0, 0, 0, 0, 3,
  3, 0, 0, 0, 0, 0, 0, 0, 3,
  3, 0, 0, 0, 0, 0, 0, 0, 3,
- 3, 0, 0, 5, 0, 0, 0, 0, 3,
+ 3, 0, 0, 4, 0, 0, 0, 0, 3,
  3, 0, 0, 0, 0, 0, 1, 0, 3,
  3, 0, 0, 0, 0, 1, 2, 1, 3,
- 3, 0, 0, 1, 0, 0, 0, 0, 3,
+ 3, 0, 1, 1, 0, 0, 0, 0, 3,
  3, 0, 0, 0, 0, 0, 0, 0, 3,
  3, 1, 0, 0, 0, 0, 0, 0, 3,
- 3, 0, 0, 0, 3, 0, 0, 0, 3,
+ 3, 0, 0, 3, 3, 0, 0, 0, 3,
  3, 0, 0, 0, 0, 0, 0, 1, 3,
- 3, 0, 0, 0, 0, 0, 0, 0, 3,
+ 3, 0, 0, 0, 0, 0, 1, 2, 3,
  3, 1, 1, 1, 1, 1, 1, 1, 3,
  3, 2, 2, 2, 2, 2, 2, 2, 3,
 };
@@ -58,7 +58,7 @@ void Level2::Initialize() {
 
     state.player->height = 0.8f;
     state.player->width = 0.6f;
-    state.player->jumpPower = 4.50f;
+    state.player->jumpPower = 4.80f;
 
 
     state.enemies = new Entity[LEVEL2_ENEMY_COUNT];
@@ -87,8 +87,8 @@ int Level2::Update(float deltaTime, int lives) {
 
     // if die then minus a life and reset
     if (state.player->isActive == false) {
-        lives -= 1;
-        if (lives > 0) state.nextScene = 2;   // reset the player
+        lives  = lives - 1;
+        if (lives > 0) { state.nextScene = 2; }   // reset the player
     }
 
     if (state.player->position.y >= -6 && state.player->position.x >= 2.5) {
@@ -103,5 +103,13 @@ void Level2::Render(ShaderProgram* program,int lives) {
     state.enemies[0].Render(program);
 
     Util::DrawText(program, fontID2, "Jump! ", 0.27, -0.07f, glm::vec3(2.5, -6, 0));
+
+    if (lives > 0) {
+        Util::DrawText(program, fontID2, "lives: " + std::to_string(lives), 0.4, -0.05f, glm::vec3(1, -17, 0));
+    }
+
+    if (lives == 0) {
+        Util::DrawText(program, fontID2, "You Lose", 0.4, -0.05f, glm::vec3(state.player->position.x, state.player->position.y, 0));
+    }
 	
 }

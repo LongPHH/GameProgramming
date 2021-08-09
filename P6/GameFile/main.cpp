@@ -18,6 +18,7 @@
 #include "Menu.h"
 #include "Level1.h"
 #include "Level2.h"
+#include "Level3.h"
 #include "Effects.h"
 
 
@@ -30,7 +31,7 @@ glm::mat4 viewMatrix, modelMatrix, projectionMatrix;
 
 // Add some variables and SwitchToScene function 
 Scene* currentScene;
-Scene* sceneList[3];
+Scene* sceneList[4];
 Effects* effects;
 
 int playerLives;
@@ -72,6 +73,7 @@ void Initialize() {
     sceneList[0] = new Menu();
     sceneList[1] = new Level1();
     sceneList[2] = new Level2();
+    sceneList[3] = new Level3();
     SwitchToScene(sceneList[0]);
 
     playerLives = 4;
@@ -157,7 +159,7 @@ void Update() {
 
     while (deltaTime >= FIXED_TIMESTEP) {
        
-        currentScene->Update(FIXED_TIMESTEP, playerLives);
+        playerLives =  currentScene->Update(FIXED_TIMESTEP, playerLives);
 
         /*if (lastCollidedBottom == false && currentScene->state.player->collidedBottom) {
             effects->Start(SHAKE, 2.0f);

@@ -59,7 +59,7 @@ void Level1::Initialize() {
 
     state.player->height = 0.8f;
     state.player->width = 0.6f;
-    state.player->jumpPower = 4.50f;
+    state.player->jumpPower = 4.80f;
 
 
     state.enemies = new Entity[LEVEL1_ENEMY_COUNT];
@@ -109,4 +109,12 @@ void Level1::Render(ShaderProgram* program, int lives) {
 	state.player->Render(program);
 
     Util::DrawText(program, fontID, "Jump! ", 0.27, -0.07f, glm::vec3(6.5, -4, 0));
+
+    if (lives > 0) {
+        Util::DrawText(program, fontID, "lives: " + std::to_string(lives), 0.4, -0.05f, glm::vec3(1, -17, 0));
+    }
+
+    if (lives == 0) {
+        Util::DrawText(program, fontID, "You Lose", 0.4, -0.05f, glm::vec3(state.player->position.x, state.player->position.y, 0));
+    }
 }
