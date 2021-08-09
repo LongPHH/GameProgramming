@@ -1,4 +1,5 @@
 #include "Level1.h"
+
 #define LEVEL1_WIDTH 9
 #define LEVEL1_HEIGHT 18
 
@@ -79,6 +80,7 @@ int Level1::Update(float deltaTime, int lives) {
     state.player->Update(deltaTime, state.player, state.enemies, LEVEL1_ENEMY_COUNT, state.map);
 
     state.enemies[0].Update(deltaTime, state.player, state.enemies, LEVEL1_ENEMY_COUNT, state.map);
+
     if (state.player->playerAttack(&state.enemies[0]) == true) {
         state.enemies[0].isActive = false;   // enemy dies 
     }
@@ -95,8 +97,6 @@ int Level1::Update(float deltaTime, int lives) {
     if (state.player->position.y >= -4.4 && state.player->position.x >= 6.5) {
         state.nextScene = 2;
     }
-
-    // tile 59 is where you should go to the next level
 
     return lives;
 }
@@ -115,6 +115,7 @@ void Level1::Render(ShaderProgram* program, int lives) {
     }
 
     if (lives == 0) {
+        
         Util::DrawText(program, fontID, "You Lose", 0.4, -0.05f, glm::vec3(state.player->position.x, state.player->position.y, 0));
     }
 }

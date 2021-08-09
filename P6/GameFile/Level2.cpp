@@ -1,4 +1,5 @@
 #include "LEVEL2.h"
+#include "iostream"
 #define LEVEL2_WIDTH 9
 #define LEVEL2_HEIGHT 18
 
@@ -108,7 +109,8 @@ void Level2::Render(ShaderProgram* program,int lives) {
         Util::DrawText(program, fontID2, "lives: " + std::to_string(lives), 0.4, -0.05f, glm::vec3(1, -17, 0));
     }
 
-    if (lives == 0) {
+    if (lives <= 0) {
+        //std::cout << "lives " << lives;
         Util::DrawText(program, fontID2, "You Lose", 0.4, -0.05f, glm::vec3(state.player->position.x, state.player->position.y, 0));
     }
 	

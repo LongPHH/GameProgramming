@@ -20,6 +20,7 @@
 #include "Level2.h"
 #include "Level3.h"
 #include "Effects.h"
+#include "iostream"
 
 
 
@@ -193,6 +194,7 @@ void Render() {
 
     glUseProgram(program.programID);
     currentScene->Render(&program, playerLives);
+    //std::cout << "lives " << playerLives;
     //effects->Render();
 
     SDL_GL_SwapWindow(displayWindow);
