@@ -219,6 +219,23 @@ void Entity::AIWaitAndGo(Entity* player) {
 
 }
 
+void Entity::AIBoss() {   // triangle pattern
+    if (position.x <= 3 && position.y <= -16) {
+        movement = glm::vec3{ 1,1,0 };
+        acceleration = glm::vec3(0.12f, 0.12f, 0);
+    }
+
+    else if (position.x >= 4 && position.y <= -9) {
+        movement = glm::vec3{ 1,-1,0 };
+        acceleration = glm::vec3(0.12f, -0.12f, 0);
+    }
+
+    else if (position.x >= 5 && position.y <= -16) {
+        movement = glm::vec3{ -1,0,0 };
+        acceleration = glm::vec3(-0.12, 0, 0);
+    }
+}
+
 void Entity::AI(Entity* player) {
     switch (aiType) {
     case WALKER:
@@ -230,8 +247,12 @@ void Entity::AI(Entity* player) {
     case FLOATER:
         AIFloater();
         break;
-    }
+    case BOSS:
+        AIBoss();
+        break;
 
+    }
+    
 }
 
 

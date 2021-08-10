@@ -14,7 +14,7 @@
 #include "map.h"
 
 enum EntityType { PLAYER, PLATFORM, ENEMY };
-enum AIType { WALKER, WAITANDGO, FLOATER };
+enum AIType { WALKER, WAITANDGO, FLOATER, BOSS };
 enum AIState { IDLE, WALKING, ATTACKING, FLOATING };
 class Entity {
 public:
@@ -74,4 +74,5 @@ public:
     void AIWalker();
     void AIWaitAndGo(Entity* player);
     void AIFloater();
+    void AIBoss();
 };

@@ -42,7 +42,7 @@ void Level4::Initialize() {
     state.player->position = glm::vec3(1, -17, 0);
     state.player->movement = glm::vec3(0);
     state.player->acceleration = glm::vec3(0, -6.81f, 0);
-    state.player->speed = 2.40f;
+    state.player->speed = 2.20f;
     state.player->textureID = Util::LoadTexture("player.png");
 
     state.player->animRight = new int[11]{ 11,12,13,14,15,16,17,18,19,20,21 };
@@ -68,12 +68,11 @@ void Level4::Initialize() {
 
     state.enemies->entityType = ENEMY;
     state.enemies[0].textureID = enemyTextureID;
-    state.enemies[0].position = glm::vec3(6, -17, 0);
+    state.enemies[0].position = glm::vec3(3, -16, 0);
     state.enemies[0].speed = 1;
     state.enemies[0].acceleration = glm::vec3(0, 0, 0);
-    state.enemies[0].aiType = WALKER;
-    state.enemies[0].aiState = IDLE;
-    state.enemies[0].isActive = false;
+    state.enemies[0].aiType = BOSS;
+  
 
 
 }
@@ -83,6 +82,7 @@ int Level4::Update(float deltaTime, int lives) {
     state.enemies[0].Update(deltaTime, state.player, state.enemies, LEVEL4_ENEMY_COUNT, state.map);
     if (state.player->playerAttack(&state.enemies[0]) == true) {
         state.enemies[0].isActive = false;   // enemy dies 
+        state.player->isActive = false;
     }
     if (state.player->enemyCollide(&state.enemies[0]) == true) {
         state.player->isActive = false;
@@ -91,7 +91,7 @@ int Level4::Update(float deltaTime, int lives) {
     // if die then minus a life and reset
     if (state.player->isActive == false) {
         lives -= 1;
-        if (lives > 0) state.nextScene = 3;   // reset the player
+        if (lives > 0) state.nextScene = 4;   // reset the player
         
     }
 
@@ -99,9 +99,6 @@ int Level4::Update(float deltaTime, int lives) {
         lives = 0;
     }
 
-    /*if (state.enemies[0].isActive == false) {
-        state.nextScene = 4;
-    }*/
 
     return lives;
 }
@@ -120,8 +117,8 @@ void Level4::Render(ShaderProgram* program, int lives) {
         Util::DrawText(program, fontID4, "You Lose", 0.4, -0.05f, glm::vec3(state.player->position.x, state.player->position.y, 0));
     }
 
-    /*if (lives > 0 && state.enemies[0].isActive == false) {
-        Util::DrawText(program, fontID4, "You Win", 0.8, -0.05f, glm::vec3(state.player->position.x, state.player->position.y, 0));
-    }*/
+    if (lives > 0 && state.enemies[0].isActive == false) {
+        Util::DrawText(program, fontID4, "you win", 0.8, -0.05f, glm::vec3(state.player->position.x, state.player->position.y + 2, 0));
+    }
 
 }

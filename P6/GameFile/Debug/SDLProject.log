@@ -1,2 +1,3 @@
-﻿  main.cpp
+﻿  Entity.cpp
+C:\Users\gunny\Desktop\GameProgramming\P6\GameFile\Entity.cpp(149,17): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
   SDLProject.vcxproj -> C:\Users\gunny\Desktop\GameProgramming\P6\GameFile\Debug\SDLProject.exe

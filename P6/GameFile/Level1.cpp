@@ -42,7 +42,7 @@ void Level1::Initialize() {
     state.player->position = glm::vec3(1, -17, 0);
     state.player->movement = glm::vec3(0);
     state.player->acceleration = glm::vec3(0, -6.81f, 0);
-    state.player->speed = 2.40f;
+    state.player->speed = 2.20f;
     state.player->textureID = Util::LoadTexture("player.png");
 
     state.player->animRight = new int[11]{11,12,13,14,15,16,17,18,19,20,21};
