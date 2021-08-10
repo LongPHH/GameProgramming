@@ -94,6 +94,10 @@ int Level1::Update(float deltaTime, int lives) {
         if (lives > 0) state.nextScene = 1;   // reset the player
     }
 
+    if (lives < 0) {
+        lives = 0;
+    }
+
     if (state.player->position.y >= -4.4 && state.player->position.x >= 6.5) {
         state.nextScene = 2;
     }

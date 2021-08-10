@@ -91,6 +91,9 @@ int Level3::Update(float deltaTime, int lives) {
         lives -= 1;
         if (lives > 0) state.nextScene = 3;   // reset the player
     }
+    if (lives < 0) {
+        lives = 0;
+    }
 
     if (state.enemies[0].isActive == false) {
         state.nextScene = 4;

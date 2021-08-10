@@ -171,11 +171,17 @@
     <Image Include="tiles.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="SDL2_mixer.dll" />
     <None Include="shaders\effects_textured.glsl" />
     <None Include="shaders\fragment.glsl" />
     <None Include="shaders\fragment_textured.glsl" />
     <None Include="shaders\vertex.glsl" />
     <None Include="shaders\vertex_textured.glsl" />
+    <None Include="smpeg2.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="jump.wav" />
+    <Media Include="music.mp3" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

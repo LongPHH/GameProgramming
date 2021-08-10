@@ -176,7 +176,7 @@ void Entity::AIWalker() {
         if (position.x >= 7) {
             movement = glm::vec3(-1, 0, 0);
         }
-        else if (position.x < 6.2) {
+        else if (position.x < 5.5) {
             movement = glm::vec3(1, 0, 0);
         }
     }

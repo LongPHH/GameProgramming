@@ -114,5 +114,13 @@
     <None Include="shaders\vertex.glsl" />
     <None Include="shaders\vertex_textured.glsl" />
     <None Include="shaders\effects_textured.glsl" />
+    <None Include="SDL2_mixer.dll" />
+    <None Include="smpeg2.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="music.mp3" />
+    <Media Include="jump.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
   </ItemGroup>
 </Project>

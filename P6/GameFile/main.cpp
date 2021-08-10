@@ -10,6 +10,7 @@
 #include "glm/mat4x4.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 #include "ShaderProgram.h"
+#include <SDL_mixer.h>
 
 #include "Util.h"
 #include "Entity.h"
@@ -37,6 +38,9 @@ Scene* sceneList[5];
 Effects* effects;
 
 int playerLives;
+Mix_Music* music;
+Mix_Chunk* jump;
+
 
 void SwitchToScene(Scene* scene) {
     currentScene = scene;
@@ -53,6 +57,13 @@ void Initialize() {
 #ifdef _WINDOWS
     glewInit();
 #endif
+
+    Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 4096);
+    music = Mix_LoadMUS("music.mp3");
+    Mix_PlayMusic(music, -1);
+    Mix_VolumeMusic(MIX_MAX_VOLUME / 5);
+
+    jump = Mix_LoadWAV("jump.wav");
     
     glViewport(0, 0, 640, 480);
     
@@ -114,6 +125,7 @@ void ProcessInput() {
                         if (currentScene != sceneList[0]) {
                             if (currentScene->state.player->collidedBottom) {
                                 currentScene->state.player->jump = true;
+                                Mix_PlayChannel(-1, jump, 0);
                             }
                         }
                         break;
