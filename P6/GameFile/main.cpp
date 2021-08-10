@@ -19,6 +19,7 @@
 #include "Level1.h"
 #include "Level2.h"
 #include "Level3.h"
+#include "Level4.h"
 #include "Effects.h"
 #include "iostream"
 
@@ -32,7 +33,7 @@ glm::mat4 viewMatrix, modelMatrix, projectionMatrix;
 
 // Add some variables and SwitchToScene function 
 Scene* currentScene;
-Scene* sceneList[4];
+Scene* sceneList[5];
 Effects* effects;
 
 int playerLives;
@@ -75,6 +76,7 @@ void Initialize() {
     sceneList[1] = new Level1();
     sceneList[2] = new Level2();
     sceneList[3] = new Level3();
+    sceneList[4] = new Level4();
     SwitchToScene(sceneList[0]);
 
     playerLives = 4;

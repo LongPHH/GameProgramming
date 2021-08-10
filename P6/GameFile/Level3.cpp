@@ -67,7 +67,7 @@ void Level3::Initialize() {
 
     state.enemies->entityType = ENEMY;
     state.enemies[0].textureID = enemyTextureID;
-    state.enemies[0].position = glm::vec3(7, -8, 0);
+    state.enemies[0].position = glm::vec3(7, -7, 0);
     state.enemies[0].speed = 1;
     state.enemies[0].acceleration = glm::vec3(0, 0, 0);
     state.enemies[0].aiType = WALKER;
@@ -92,7 +92,7 @@ int Level3::Update(float deltaTime, int lives) {
         if (lives > 0) state.nextScene = 3;   // reset the player
     }
 
-    if (state.player->position.y >= -6 && state.player->position.x >= 2.5) {
+    if (state.enemies[0].isActive == false) {
         state.nextScene = 4;
     }
 
@@ -103,7 +103,7 @@ void Level3::Render(ShaderProgram* program, int lives) {
     state.player->Render(program);
     state.enemies[0].Render(program);
 
-    Util::DrawText(program, fontID3, "Jump! ", 0.27, -0.07f, glm::vec3(2.5, -6, 0));
+    // Util::DrawText(program, fontID3, "Jump! ", 0.27, -0.07f, glm::vec3(2.5, -6, 0));
     
     if (lives > 0) {
         Util::DrawText(program, fontID3, "lives: " + std::to_string(lives), 0.4, -0.05f, glm::vec3(1, -17, 0));

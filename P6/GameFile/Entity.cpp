@@ -168,7 +168,18 @@ bool Entity::playerAttack(Entity* other) {
 
 
 void Entity::AIWalker() {
-    movement = glm::vec3(-1, 0, 0);
+    switch (aiState) {
+    case IDLE:
+        aiState = WALKING;
+        break;
+    case WALKING:
+        if (position.x >= 7) {
+            movement = glm::vec3(-1, 0, 0);
+        }
+        else if (position.x < 6.2) {
+            movement = glm::vec3(1, 0, 0);
+        }
+    }
 }
 
 void Entity::AIFloater() {
