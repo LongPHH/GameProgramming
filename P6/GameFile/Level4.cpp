@@ -72,6 +72,7 @@ void Level4::Initialize() {
     state.enemies[0].speed = 1;
     state.enemies[0].acceleration = glm::vec3(0, 0, 0);
     state.enemies[0].aiType = BOSS;
+    state.enemies[0].aiState = BOSSING;
   
 
 
@@ -82,7 +83,8 @@ int Level4::Update(float deltaTime, int lives) {
     state.enemies[0].Update(deltaTime, state.player, state.enemies, LEVEL4_ENEMY_COUNT, state.map);
     if (state.player->playerAttack(&state.enemies[0]) == true) {
         state.enemies[0].isActive = false;   // enemy dies 
-        state.player->isActive = false;
+        state.player->speed = 0;
+        state.player->jumpPower = 0;
     }
     if (state.player->enemyCollide(&state.enemies[0]) == true) {
         state.player->isActive = false;
@@ -91,12 +93,12 @@ int Level4::Update(float deltaTime, int lives) {
     // if die then minus a life and reset
     if (state.player->isActive == false) {
         lives -= 1;
-        if (lives > 0) state.nextScene = 4;   // reset the player
-        
+        if (lives > 0) state.nextScene = 4;   // reset the player 
     }
 
     if (lives < 0) {
         lives = 0;
+
     }
 
 
@@ -118,7 +120,7 @@ void Level4::Render(ShaderProgram* program, int lives) {
     }
 
     if (lives > 0 && state.enemies[0].isActive == false) {
-        Util::DrawText(program, fontID4, "you win", 0.8, -0.05f, glm::vec3(state.player->position.x, state.player->position.y + 2, 0));
+        Util::DrawText(program, fontID4, "you win", 0.8, -0.05f, glm::vec3(3, state.player->position.y + 2, 0));
     }
 
 }

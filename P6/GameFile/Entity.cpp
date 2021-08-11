@@ -220,20 +220,26 @@ void Entity::AIWaitAndGo(Entity* player) {
 }
 
 void Entity::AIBoss() {   // triangle pattern
-    if (position.x <= 3 && position.y <= -16) {
-        movement = glm::vec3{ 1,1,0 };
-        acceleration = glm::vec3(0.12f, 0.12f, 0);
-    }
+    switch (aiState) {
+    case BOSSING:
+        if (position.x <= 3 && position.y <= -16) {   // go up and to the right
+            movement = glm::vec3{ 1,2,0 };
+            acceleration = glm::vec3(1, 1, 0);
+        }
 
-    else if (position.x >= 4 && position.y <= -9) {
-        movement = glm::vec3{ 1,-1,0 };
-        acceleration = glm::vec3(0.12f, -0.12f, 0);
-    }
+        else if (position.x >= 3.5) {   // go down and to the right 
+            movement = glm::vec3{ 1,-1,0 };
+            acceleration = glm::vec3(1, -2, 0);
+        }
 
-    else if (position.x >= 5 && position.y <= -16) {
-        movement = glm::vec3{ -1,0,0 };
-        acceleration = glm::vec3(-0.12, 0, 0);
+        else if (position.x >= 4.5 && position.y <= -15) {     // go left horizontally
+            movement = glm::vec3{ -1,0,0 };
+            acceleration = glm::vec3(-1, 0, 0);
+        }
+        break;
     }
+    
+    
 }
 
 void Entity::AI(Entity* player) {
