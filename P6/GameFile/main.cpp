@@ -201,7 +201,7 @@ void Update() {
             viewMatrix = glm::translate(viewMatrix, glm::vec3(-5, 13.75f, 0));
         }
     }
-    //viewMatrix = glm::translate(viewMatrix, effects->viewOffset);
+    viewMatrix = glm::translate(viewMatrix, effects->viewOffset);
 
 }
 
@@ -213,7 +213,7 @@ void Render() {
     glUseProgram(program.programID);
     currentScene->Render(&program, playerLives);
     //std::cout << "lives " << playerLives;
-    //effects->Render();
+    effects->Render();
 
     SDL_GL_SwapWindow(displayWindow);
 }

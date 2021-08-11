@@ -59,7 +59,7 @@ void Level2::Initialize() {
 
     state.player->height = 0.8f;
     state.player->width = 0.6f;
-    state.player->jumpPower = 4.80f;
+    state.player->jumpPower = 5;
 
 
     state.enemies = new Entity[LEVEL2_ENEMY_COUNT];

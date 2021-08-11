@@ -11,10 +11,10 @@ unsigned int level3_data[] =
  3, 0, 0, 0, 0, 0, 0, 0, 3,
  3, 0, 0, 0, 0, 0, 0, 0, 3,
  3, 0, 0, 0, 0, 0, 0, 0, 3,
- 3, 0, 0, 0, 0, 0, 0, 0, 3,
- 3, 0, 0, 0, 0, 0, 0, 0, 3,
- 3, 0, 0, 0, 0, 0, 0, 0, 3,
  3, 0, 0, 0, 0, 4, 4, 4, 3,
+ 3, 0, 0 ,0, 0, 0, 0, 0, 3,
+ 3, 1, 1, 1, 0, 0, 0, 0, 3,
+ 3, 0, 0, 0, 0, 1, 1, 1, 3,
  3, 0, 0, 0, 0, 0, 0, 0, 3,
  3, 1, 1, 1, 0, 0, 0, 0, 3,
  3, 0, 0, 0, 0, 0, 0, 0, 3,
@@ -59,7 +59,7 @@ void Level3::Initialize() {
 
     state.player->height = 0.8f;
     state.player->width = 0.6f;
-    state.player->jumpPower = 4.8f;
+    state.player->jumpPower = 4.9f;
 
 
     state.enemies = new Entity[LEVEL3_ENEMY_COUNT];
@@ -67,7 +67,7 @@ void Level3::Initialize() {
 
     state.enemies->entityType = ENEMY;
     state.enemies[0].textureID = enemyTextureID;
-    state.enemies[0].position = glm::vec3(7, -7, 0);
+    state.enemies[0].position = glm::vec3(7, -4, 0);
     state.enemies[0].speed = 1;
     state.enemies[0].acceleration = glm::vec3(0, 0, 0);
     state.enemies[0].aiType = WALKER;
