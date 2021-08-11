@@ -1,9 +1,2 @@
-﻿  Level3.cpp
-C:\Users\gunny\Desktop\GameProgramming\P6\GameFile\Level3.cpp(112,110): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\gunny\Desktop\GameProgramming\P6\GameFile\Level3.cpp(116,132): warning C4305: 'argument': truncation from 'double' to 'float'
-  Level4.cpp
-C:\Users\gunny\Desktop\GameProgramming\P6\GameFile\Level4.cpp(114,110): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\gunny\Desktop\GameProgramming\P6\GameFile\Level4.cpp(118,131): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\gunny\Desktop\GameProgramming\P6\GameFile\Level4.cpp(122,111): warning C4305: 'argument': truncation from 'double' to 'float'
-  Generating Code...
+﻿  main.cpp
   SDLProject.vcxproj -> C:\Users\gunny\Desktop\GameProgramming\P6\GameFile\Debug\SDLProject.exe

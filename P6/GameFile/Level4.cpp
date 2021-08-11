@@ -71,8 +71,8 @@ void Level4::Initialize() {
     state.enemies[0].position = glm::vec3(3, -16, 0);
     state.enemies[0].speed = 1;
     state.enemies[0].acceleration = glm::vec3(0, 0, 0);
-    state.enemies[0].aiType = BOSS;
-    state.enemies[0].aiState = BOSSING;
+    state.enemies[0].aiType = FLOATER;
+    state.enemies[0].aiState = FLOATING;
   
 
 
@@ -120,7 +120,7 @@ void Level4::Render(ShaderProgram* program, int lives) {
     }
 
     if (lives > 0 && state.enemies[0].isActive == false) {
-        Util::DrawText(program, fontID4, "you win", 0.8, -0.05f, glm::vec3(3, state.player->position.y + 2, 0));
+        Util::DrawText(program, fontID4, "you win", 0.8, -0.05f, glm::vec3(2, state.player->position.y + 2, 0));
     }
 
 }

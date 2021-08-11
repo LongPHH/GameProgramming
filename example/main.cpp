@@ -144,10 +144,10 @@ void Update() {
     while (deltaTime >= FIXED_TIMESTEP) {
        
         currentScene->Update(FIXED_TIMESTEP);
-        /*if (lastCollidedBottom == false && currentScene->state.player->collidedBottom) {
+        if (lastCollidedBottom == false && currentScene->state.player->collidedBottom) {
             effects->Start(SHAKE, 2.0f);
             
-        }*/
+        }
         lastCollidedBottom = currentScene->state.player->collidedBottom;
         effects->Update(FIXED_TIMESTEP);
         deltaTime -= FIXED_TIMESTEP;

@@ -176,12 +176,16 @@ void Update() {
        
         playerLives =  currentScene->Update(FIXED_TIMESTEP, playerLives);
 
-        /*if (lastCollidedBottom == false && currentScene->state.player->collidedBottom) {
+        if (currentScene==sceneList[4] && lastCollidedBottom==false && currentScene->state.enemies[0].collidedBottom) {
             effects->Start(SHAKE, 2.0f);
             
-        }*/
-        //lastCollidedBottom = currentScene->state.player->collidedBottom;
-        //effects->Update(FIXED_TIMESTEP);
+        }
+        if(currentScene == sceneList[4])
+        {
+            lastCollidedBottom = currentScene->state.enemies[0].collidedBottom;
+        }
+            
+        effects->Update(FIXED_TIMESTEP);
 
         deltaTime -= FIXED_TIMESTEP;
     }
